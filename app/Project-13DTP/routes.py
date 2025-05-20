@@ -1,6 +1,24 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import app.models as models
+import os
+
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def home():
+    return render_template('form.html')
+
+
+@app.route('/add')
+def add():
+    name = request.args.get('name')
+    return render_template('form.html', title=name)
+
+
+
 
 
 # Route for the about page
