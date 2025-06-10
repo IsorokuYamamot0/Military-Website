@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Military Database{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Military Weapons Database</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('tables') }}">Browse Tables</a></li>
+                <li><a href="{{ url_for('country', country_name='USA') }}">USA</a></li>
+                <li><a href="{{ url_for('country', country_name='China') }}">China</a></li>
+                <li><a href="{{ url_for('country', country_name='Russia') }}">Russia</a></li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <form action="{{ url_for('search') }}" method="get">
+                <input type="text" name="q" placeholder="Search weapons or missiles..." required>
+                <button type="submit" class="menu-button">Search</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Military Weapons Database. Educational purposes only.</p>
+    </footer>
+</body>
+</html>

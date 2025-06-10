@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}All Tables{% endblock %}
+{% block content %}
+<h2>Available Weapon Categories</h2>
+<p>Browse all weapon categories in our database:</p>
+
+<div class="tables-grid">
+    {% for table_name, description in tables %}
+        <div class="table-card">
+            <h3>{{ description }}</h3>
+            <p>View all {{ description.lower() }} in our database</p>
+            <a href="/table/{{ table_name }}" class="menu-button">View {{ table_name }}</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

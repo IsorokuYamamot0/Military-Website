@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}{{ table_name }}{% endblock %}
+{% block content %}
+<h2>{{ table_name }} Database</h2>
+
+{% if rows %}
+    <p>Total entries: {{ rows|length }}</p>
+    <div class="table-results">
+        {% for row in rows %}
+            <div class="weapon-item">
+                <h3>{{ row.name }}</h3>
+                <p><strong>Type:</strong> {{ row.type }}</p>
+                <p><strong>Country:</strong> {{ row.country }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No entries found in {{ table_name }} table.</p>
+{% endif %}
+
+<a href="/tables" class="menu-button">Back to All Tables</a>
+<a href="/" class="menu-button">Home</a>
+{% endblock %}

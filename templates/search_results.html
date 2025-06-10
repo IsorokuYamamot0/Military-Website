@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Search Results{% endblock %}
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if weapons %}
+    <p>Found {{ weapons|length }} result(s)</p>
+    <div class="search-results">
+        {% for weapon in weapons %}
+            <div class="weapon-item">
+                <h3>{{ weapon.name }}</h3>
+                <p><strong>Type:</strong> {{ weapon.type }}</p>
+                <p><strong>Country:</strong> {{ weapon.country }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    {% if query %}
+        <p>No weapons found matching "{{ query }}"</p>
+    {% else %}
+        <p>Please enter a search term</p>
+    {% endif %}
+{% endif %}
+
+<a href="/" class="menu-button">Back to Home</a>
+{% endblock %}
