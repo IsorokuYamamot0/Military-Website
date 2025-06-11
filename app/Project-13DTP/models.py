@@ -5,7 +5,7 @@ class Plane(db.Model):
     id_planes = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def name(self):
         return self.Name or 'Unknown Aircraft'
