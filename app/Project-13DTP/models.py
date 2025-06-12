@@ -76,7 +76,7 @@ class SurfaceMissile(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'Surface Missile'
@@ -87,7 +87,7 @@ class SeaSurfaceMissile(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'Sea-to-Surface Missile'
