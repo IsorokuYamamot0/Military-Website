@@ -3,15 +3,15 @@ from . import db
 
 class WeaponBase(db.Model):
     __abstract__ = True
-   
+
     @property
     def name(self):
         return getattr(self, 'Name', getattr(self, 'Tank_Name', getattr(self, 'ICBM_Name', getattr(self, 'Heli_Name', 'Unknown')))) or f'Unknown {self.type}'
-    
+
     @property
     def country(self):
         return getattr(self, 'Country', 'Unknown') or 'Unknown'
-    
+
     def __repr__(self):
         return f'<{self.type} {self.name}>'
 
@@ -21,7 +21,7 @@ class Plane(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'Aircraft'
@@ -32,7 +32,7 @@ class Tank(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     Tank_Name = db.Column(db.String(100), nullable=False)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'Tank'
@@ -43,7 +43,7 @@ class ICBM(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     ICBM_Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'ICBM'
@@ -54,7 +54,7 @@ class Helicopter(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     Heli_Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'Helicopter'
@@ -65,7 +65,7 @@ class AirGroundMissile(WeaponBase):
     id = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(100), nullable=True)
     Country = db.Column(db.String(50), nullable=True)
-    
+
     @property
     def type(self):
         return 'Air-to-Ground Missile'

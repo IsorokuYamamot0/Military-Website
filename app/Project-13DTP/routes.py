@@ -30,7 +30,7 @@ def _query_weapons(country=None, search_term=None):
     """Helper function to query weapons based on country or search term"""
     weapons = []
     models = [model for model, _ in TABLE_MAPPING.values()]
-    
+
     try:
         for model in models:
             query = model.query
@@ -45,7 +45,7 @@ def _query_weapons(country=None, search_term=None):
             weapons.extend(query.all())
     except Exception as e:
         app.logger.error(f"Database error: {e}")
-    
+
     return weapons
 
 
@@ -72,15 +72,15 @@ def tables():
 def table_view(table_name):
     if table_name not in TABLE_MAPPING:
         abort(404)
-    
+
     model, _ = TABLE_MAPPING[table_name]
     try:
         rows = model.query.all()
     except Exception as e:
         app.logger.error(f"Table view error: {e}")
         rows = []
-    
-    return render_template('table.html', 
+
+    return render_template('table.html',
                          table_name=table_name.replace('_', ' ').title(),
                          display_name=TABLE_MAPPING[table_name][1],
                          rows=rows)
