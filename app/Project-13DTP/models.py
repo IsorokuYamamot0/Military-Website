@@ -3,7 +3,7 @@ from . import db
 
 class WeaponBase(db.Model):
     __abstract__ = True
-    
+   
     @property
     def name(self):
         return getattr(self, 'Name', getattr(self, 'Tank_Name', getattr(self, 'ICBM_Name', getattr(self, 'Heli_Name', 'Unknown')))) or f'Unknown {self.type}'

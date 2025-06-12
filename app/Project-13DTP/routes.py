@@ -1,7 +1,7 @@
 from flask import render_template, request, current_app as app, abort
 from .models import (
-    Plane, Tank, ICBM, Helicopter, 
-    AirGroundMissile, SurfaceMissile, SeaSurfaceMissile
+    Plane, Tank, ICBM, Helicopter, AirGroundMissile, SurfaceMissile,
+    SeaSurfaceMissile
 )
 
 # Table configuration
