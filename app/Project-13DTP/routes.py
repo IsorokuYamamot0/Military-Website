@@ -1,86 +1,55 @@
-from flask import render_template, request, current_app as app, abort
-from .models import (
-    Plane, Tank, ICBM, Helicopter, AirGroundMissile, SurfaceMissile,
-    SeaSurfaceMissile
-)
-
-# Table configuration
-TABLE_MAPPING = {
-    'planes': (Plane, 'Aircraft'),
-    'tanks': (Tank, 'Ground Vehicles'),
-    'icbm': (ICBM, 'Intercontinental Ballistic Missiles'),
-    'helicopters': (Helicopter, 'Rotorcraft'),
-    'air_ground_missiles': (AirGroundMissile, 'Air-to-Ground Missiles'),
-    'surface_missiles': (SurfaceMissile, 'Surface Missiles'),
-    'sea_surface_missiles': (SeaSurfaceMissile, 'Sea-to-Surface Missiles')
-}
+from app import app
+from flask import render_template, abort
+from flask_sqlalchemy import SQLAlchemy  # no more boring old SQL for us!
+import os
 
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+db = SQLAlchemy()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "pizza.db")
+db.init_app(app)
+      
+
+import app.models as models
+
+
+# basic route
 @app.route('/')
-def home():
-    return render_template('index.html')
+def root():
+    return render_template('home.html', page_title='HOME')
 
 
-@app.route('/about')
+# about route
+@app.route('/about')  # note the leading slash, it’s important
 def about():
-    return render_template('about.html')
+    return render_template('about.html', page_title='ABOUT') 
 
 
-def _query_weapons(country=None, search_term=None):
-    """Helper function to query weapons based on country or search term"""
-    weapons = []
-    models = [model for model, _ in TABLE_MAPPING.values()]
-
-    try:
-        for model in models:
-            query = model.query
-            if country:
-                query = query.filter(model.Country.ilike(f'%{country}%'))
-            elif search_term:
-                name_attr = 'Name' if hasattr(model, 'Name') else \
-                           'Tank_Name' if hasattr(model, 'Tank_Name') else \
-                           'ICBM_Name' if hasattr(model, 'ICBM_Name') else \
-                           'Heli_Name'
-                query = query.filter(getattr(model, name_attr).ilike(f'%{search_term}%'))
-            weapons.extend(query.all())
-    except Exception as e:
-        app.logger.error(f"Database error: {e}")
-
-    return weapons
+@app.route('/all_pizzas')
+def all_pizzas():
+  pizzas = models.Pizza.query.all()
+  return render_template("all_pizzas.html", pizzas=pizzas)
 
 
-@app.route('/country/<country_name>')
-def country(country_name):
-    weapons = _query_weapons(country=country_name)
-    return render_template('country.html', country=country_name, weapons=weapons)
+# Now lets display one pizza using SQLAlchemy
+@app.route('/pizza/<int:id>')
+def pizza(id):
+    # get the pizza, but throw a 404 if the id doesn't exist
+    pizza = models.Pizza.query.filter_by(id=id).first_or_404()
+    print(pizza, pizza.toppings)  # DEBUG
+    # title = pizza[1].upper() + ' PIZZA' # see Pizza class __repr__
+    return render_template('pizza.html', pizza=pizza)
 
 
-@app.route('/search')
-def search():
-    query = request.args.get('q', '').strip()
-    weapons = _query_weapons(search_term=query) if query else []
-    return render_template('search_results.html', query=query, weapons=weapons)
+@app.route('/base/<int:id>')
+def base(id):
+    pizzas = models.Pizza.query.filter_by(base=id).all()
+    return render_template("pizzas.html", pizzas=pizzas)
 
 
-@app.route('/tables')
-def tables():
-    tables_info = [(name, display) for name, (_, display) in TABLE_MAPPING.items()]
-    return render_template('tables.html', tables=tables_info)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html")
 
-
-@app.route('/table/<table_name>')
-def table_view(table_name):
-    if table_name not in TABLE_MAPPING:
-        abort(404)
-
-    model, _ = TABLE_MAPPING[table_name]
-    try:
-        rows = model.query.all()
-    except Exception as e:
-        app.logger.error(f"Table view error: {e}")
-        rows = []
-
-    return render_template('table.html',
-                         table_name=table_name.replace('_', ' ').title(),
-                         display_name=TABLE_MAPPING[table_name][1],
-                         rows=rows)
+#if __name__ == "__main__":
+#    app.run(debug=True)
