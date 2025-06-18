@@ -1,8 +1,8 @@
 # You need a model for each table - this is the 'translation layer'
 # between Flask and SQL.  And you need a way to handle the many-to-many
 # relationship between Pizza and Topping
-
-from app.routes import db
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()  # This should be initialized with your Flask app
 
 # This is a simple many-to-many that just has the two FK's - if you have
 # a complex many-to-many that has its own fields (eg: you have a db with
