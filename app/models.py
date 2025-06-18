@@ -10,8 +10,8 @@ db = SQLAlchemy()  # This should be initialized with your Flask app
 # name and notes) then you'll want to look at my MiniIMDB and/or
 # Kiwi Pycon X tutorials
 PizzaTopping = db.Table('PizzaTopping',
-    db.Column('pid', db.Integer, db.ForeignKey('Pizza.id')),
-    db.Column('tid', db.Integer, db.ForeignKey('Topping.id'))
+    db.Column('pid', db.Integer, db.ForeignKey('Tank.id')),
+    db.Column('tid', db.Integer, db.ForeignKey('Plane.id'))
 )
 
 
@@ -20,12 +20,10 @@ class Pizza(db.Model):
   # is an id in the table, because it can figure it out itself...
   # although in vanilla SQLAlchemy it is needed.  It should be set
   # to the name of the table in the database
-  __tablename__ = "Pizza"
+  __tablename__ = "Tank"
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String())
-  description = db.Column(db.Text())
-  base = db.Column(db.Integer, db.ForeignKey('Base.id'))
-  
+
   # a one-to-many relationship exists between Base and Pizza
   # one base can be used on many pizzas, but one pizza only has one base
   # so we do the relationship here in Pizza, to the Base class
