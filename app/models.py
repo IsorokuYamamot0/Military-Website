@@ -22,7 +22,6 @@ class Pizza(db.Model):
     name = db.Column(db.String())
     description = db.Column(db.Text())
     base_name = db.relationship("Base", backref="pizzas_with_this_base")
- 
     toppings = db.relationship('Topping', secondary = PizzaTopping, back_populates = 'pizzas')
 
     def __repr__(self):
@@ -34,7 +33,6 @@ class Topping(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String())
   description = db.Column(db.Text())
-  
   pizzas = db.relationship('Pizza', secondary = PizzaTopping, back_populates = 'toppings')
 
 
