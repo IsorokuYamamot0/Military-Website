@@ -16,34 +16,19 @@ PizzaTopping = db.Table('PizzaTopping',
 
 
 class Pizza(db.Model):
-  # In Flask-SQLAlchemy __tablename__ is not strictly required if there
-  # is an id in the table, because it can figure it out itself...
-  # although in vanilla SQLAlchemy it is needed.  It should be set
-  # to the name of the table in the database
-  __tablename__ = "Tank"
-  id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String())
+  
+    __tablename__ = "Tank"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    description = db.Column(db.Text())
+    base_name = db.relationship("Base", backref="pizzas_with_this_base")
+ 
+    toppings = db.relationship('Topping', secondary = PizzaTopping, back_populates = 'pizzas')
 
-  # a one-to-many relationship exists between Base and Pizza
-  # one base can be used on many pizzas, but one pizza only has one base
-  # so we do the relationship here in Pizza, to the Base class
-  base_name = db.relationship("Base", backref="pizzas_with_this_base")
-  # Note the odd names - we can't use Pizza.base, as that is already used
-  # for the FK, so Pizza.base_name will do - in a many to many it would
-  # probably be plural (ie: Pizza.toppings) but there is only one base.
-
-  # Note - the backref saves you writing the same relationship in the other
-  # direction in the Topping class - there is also back_populates
-  # which you would use if you were also inserting data, but thats for
-  # another day...
-  # effectively you can now query Pizza, and view all the toppings by
-  # looking at pizza.toppings (returns a list of the toppings)
-  toppings = db.relationship('Topping', secondary = PizzaTopping, back_populates = 'pizzas')
-
-  def __repr__(self):
-    return f'{self.name.upper()} PIZZA' 
-
-
+    def __repr__(self):
+        return f"{self.name} Pizza"
+# This is a simple model for a pizza, with a many-to-many relationship
+# to Topping. The __repr__ method is used to give a string representation 
 class Topping(db.Model):
   __tablename__ = "Topping"
   id = db.Column(db.Integer, primary_key=True)
