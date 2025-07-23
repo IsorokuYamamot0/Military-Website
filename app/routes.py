@@ -2,14 +2,17 @@ from app import app
 from flask import render_template
 from app.models import Pizza
 
+
 # Root route
 @app.route('/')
 def root():
     return render_template('home.html', page_title='HOME')
 
+
 @app.route('/about')
 def about():
     return render_template('about.html', page_title='ABOUT')
+
 
 @app.route('/pizza/<int:id>')
 def pizza(id):
@@ -17,9 +20,11 @@ def pizza(id):
     print(pizza, pizza.toppings)
     return render_template('pizza.html', pizza=pizza)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html")
+
 
 @app.errorhandler(500)
 def internal_server_error(e):
