@@ -1,4 +1,4 @@
-from app import db
+from __init__ import db
 
 # Association Tables (Many-to-Many)
 country_tank = db.Table('country_tank',

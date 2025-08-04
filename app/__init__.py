@@ -10,8 +10,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Import routes *after* initializing app and db to avoid circular import
+# Import routes and models *after* initializing app and db to avoid circular imports
+from app import routes, models
 
-from app import models
-# Importing models here ensures they are loaded when the app starts
-from app import military
+# Define a function to create the database tables
+def create_tables():
+    with app.app_context():
+        db.create_all()
+
+# Register a command-line command to initialize the database
+@app.cli.command('init-db')
+def init_db_command():
+    """Creates the database tables."""
+    create_tables()
+    print('Initialized the database.')
