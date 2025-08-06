@@ -6,12 +6,12 @@ from app.models import Pizza
 # Root route
 @app.route('/')
 def root():
-    return render_template('home.html', page_title='HOME')
+    return render_template('Home.html', page_title='HOME')
 
 
 @app.route('/about')
 def about():
-    return render_template('about.html', page_title='ABOUT')
+    return render_template('About.html', page_title='ABOUT')
 
 
 @app.route('/pizza/<int:id>')

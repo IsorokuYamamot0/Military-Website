@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Import routes and models *after* initializing app and db to avoid circular imports
-from app import routes, models
+
 
 
 # Define a function to create the database tables
