@@ -2,17 +2,17 @@ from __init__ import db
 
 # Association Tables (Many-to-Many)
 country_tank = db.Table('country_tank',
-    db.Column('country_id', db.Integer, db.ForeignKey('country.id'))
+    db.Column('country_id', db.Integer, db.ForeignKey('country.id')),
     db.Column('tank_id', db.Integer, db.ForeignKey('tank.id'))
 )
 
 country_plane = db.Table('country_plane',
-    db.Column('country_id', db.Integer, db.ForeignKey('country.id'))
+    db.Column('country_id', db.Integer, db.ForeignKey('country.id')),
     db.Column('plane_id', db.Integer, db.ForeignKey('plane.id'))
 )
 
 country_missile = db.Table('country_missile',
-    db.Column('country_id', db.Integer, db.ForeignKey('country.id'))
+    db.Column('country_id', db.Integer, db.ForeignKey('country.id')),
     db.Column('missile_id', db.Integer, db.ForeignKey('missile.id'))
 )
 
