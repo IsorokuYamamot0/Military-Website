@@ -5,8 +5,8 @@ from app.models import Pizza
 
 # Root route
 @app.route('/')
-def root():
-    return render_template('home.html', page_title='HOME')
+def homepage():
+    return render_template('home.html')
 
 
 @app.route('/about')

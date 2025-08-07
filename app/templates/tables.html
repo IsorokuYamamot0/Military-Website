@@ -9,7 +9,8 @@
         <div class="table-card">
             <h3>{{ description }}</h3>
             <p>View all {{ description.lower() }} in our database</p>
-            <a href="/table/{{ table_name }}" class="menu-button">View {{ table_name }}</a>
+            {# This now uses url_for for a more robust link #}
+            <a href="{{ url_for('table', table_name=table_name) }}" class="menu-button">View {{ table_name }}</a>
         </div>
     {% endfor %}
 </div>
