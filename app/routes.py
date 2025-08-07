@@ -1,37 +1,60 @@
-from app import app, db
+from flask import render_template, request
+from sqlalchemy import or_
+from app import app
 from app.models import Tank, Plane
 
-
-def populate_database():
-    """Populates the database with sample data if it's empty."""
-    print("Checking database...")
-    # Add data only if the tables are empty
-    if Tank.query.first() is None and Plane.query.first() is None:
-        print("Database is empty. Populating with sample USA vehicles...")
-        tanks_data = [
-            {'name': 'M1 Abrams', 'year_introduced': 1980, 'description': 'The main battle tank of the United States Army and Marine Corps.'},
-            {'name': 'M2 Bradley', 'year_introduced': 1981, 'description': 'An infantry fighting vehicle that serves as both a transport and a support vehicle.'}
-        ]
-        planes_data = [
-            {'name': 'F-22 Raptor', 'role': 'Stealth Air Superiority Fighter', 'description': 'A fifth-generation, single-seat, twin-engine, all-weather stealth tactical fighter aircraft.'},
-            {'name': 'B-2 Spirit', 'role': 'Stealth Bomber', 'description': 'A multi-role bomber capable of deploying both conventional and nuclear munitions.'},
-            {'name': 'A-10 Thunderbolt II', 'role': 'Close Air Support', 'description': 'A single-seat, twin-turbofan engine, straight-wing jet aircraft developed for close air support.'}
-        ]
-
-        for data in tanks_data:
-            db.session.add(Tank(**data))
-        for data in planes_data:
-            db.session.add(Plane(**data))
-        db.session.commit()
-        print("Database population complete.")
-    else:
-        print("Database already contains data. Skipping population.")
+# --- Application Routes ---
 
 
-if __name__ == '__main__':
-    # Use app_context to create database tables and populate them
-    with app.app_context():
-        db.create_all()
-        populate_database()
-    # Run the Flask development server
-    app.run(debug=True)
+@app.route('/')
+def homepage():
+    """Renders the main home page."""
+    return render_template('index.html')
+
+
+@app.route('/about')
+def about():
+    """Renders the about page."""
+    return render_template('about.html')
+
+
+@app.route('/tanks')
+def tanks_list():
+    """Renders the page showing all tanks."""
+    tanks = Tank.query.all()
+    return render_template('vehicles.html', vehicles=tanks, title="USA Tanks")
+
+
+@app.route('/planes')
+def planes_list():
+    """Renders the page showing all aircraft."""
+    planes = Plane.query.all()
+    return render_template('vehicles.html', vehicles=planes, title="USA Aircraft")
+
+
+@app.route('/search')
+def search():
+    """Handles search queries and displays results."""
+    query = request.args.get('q', '')
+    if not query:
+        return render_template('search_results.html', query=query, vehicles=[])
+
+    search_term = f"%{query}%"
+    tanks = Tank.query.filter(or_(Tank.name.ilike(search_term), Tank.description.ilike(search_term))).all()
+    planes = Plane.query.filter(or_(Plane.name.ilike(search_term), Plane.description.ilike(search_term), Plane.role.ilike(search_term))).all()
+    results = tanks + planes
+    return render_template('search_results.html', query=query, vehicles=results)
+
+
+# --- Error Handlers ---
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """Renders the 404 error page."""
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    """Renders the 500 error page for server errors."""
+    return render_template("500.html"), 500
