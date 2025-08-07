@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
-{% block title %}Search Results{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
-<h2>Search Results for "{{ query }}"</h2>
+<h2>{{ title }}</h2>
 
 {% if vehicles %}
-    <p>Found {{ vehicles|length }} result(s)</p>
-    <div class="search-results">
+    <p>Displaying {{ vehicles|length }} vehicle(s) in our database.</p>
+    <div class="vehicle-list">
         {% for vehicle in vehicles %}
             <div class="weapon-item">
                 <h3>{{ vehicle.name }}</h3>
@@ -13,17 +13,18 @@
                 {% if vehicle.role %}
                 <p><strong>Role:</strong> {{ vehicle.role }}</p>
                 {% endif %}
+                {% if vehicle.year_introduced %}
+                <p><strong>Year Introduced:</strong> {{ vehicle.year_introduced }}</p>
+                {% endif %}
                 <p><strong>Description:</strong> {{ vehicle.description }}</p>
             </div>
         {% endfor %}
     </div>
 {% else %}
-    {% if query %}
-        <p>No vehicles found matching "{{ query }}"</p>
-    {% else %}
-        <p>Please enter a search term</p>
-    {% endif %}
+    <p>No vehicles found in this category.</p>
 {% endif %}
 
-<a href="{{ url_for('homepage') }}" class="menu-button">Back to Home</a>
+<div class="navigation-buttons">
+    <a href="{{ url_for('homepage') }}" class="menu-button">Back to Home</a>
+</div>
 {% endblock %}
