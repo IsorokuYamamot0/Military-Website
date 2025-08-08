@@ -94,7 +94,6 @@ def edit_tank(id):
         db.session.commit()
         flash(f'Tank "{tank.name}" updated successfully!', 'success')
         return redirect(url_for('tanks_list'))
-    
     return render_template('edit_tank.html', title="Edit Tank", vehicle=tank)
 
 
@@ -121,7 +120,6 @@ def edit_plane(id):
         db.session.commit()
         flash(f'Aircraft "{plane.name}" updated successfully!', 'success')
         return redirect(url_for('planes_list'))
-        
     return render_template('edit_plane.html', title="Edit Aircraft", vehicle=plane)
 
 

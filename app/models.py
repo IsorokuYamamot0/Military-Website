@@ -1,5 +1,6 @@
 from app import db
 
+
 class Tank(db.Model):
     """Represents a tank in the database."""
     __tablename__ = 'tank'
