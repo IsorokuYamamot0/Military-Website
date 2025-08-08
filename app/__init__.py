@@ -10,6 +10,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "USA_vehicles.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# A secret key is required for session management and flash messages.
+app.config['SECRET_KEY'] = 'your_secret_key'  # This should be a complex, random value in a real application.
+
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
 
