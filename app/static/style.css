@@ -1,10 +1,11 @@
 /*This website is made by Nishil Singh June 1 2025*/
+/* Reset some default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+/* Global styles */
 body, html {
     height: 100%;
     font-family: 'Arial', sans-serif;
@@ -12,7 +13,7 @@ body, html {
     color: #ecf0f1;
     line-height: 1.6;
 }
-
+/* Flexbox for layout */
 body {
     display: flex;
     flex-direction: column;
@@ -47,11 +48,11 @@ nav ul {
     flex-wrap: wrap;
     border-radius: 8px;
 }
-
+/* Navigation links */
 nav li {
     display: inline-block;
 }
-
+/* Navigation link styles */
 nav li a {
     display: block;
     color: white;
@@ -61,7 +62,7 @@ nav li a {
     transition: background-color 0.3s ease;
     font-weight: bold;
 }
-
+/* Navigation link hover effect */
 nav li a:hover {
     background-color: #e74c3c;
     color: white;
@@ -72,7 +73,7 @@ nav li a:hover {
     margin: 20px 0 0 0;
     text-align: center;
 }
-
+/* Search form styling */
 .search-container form {
     display: inline-flex;
     gap: 10px;
@@ -80,7 +81,7 @@ nav li a:hover {
     flex-wrap: wrap;
     justify-content: center;
 }
-
+/* Search input field */
 .search-container input {
     padding: 12px;
     font-size: 16px;
@@ -90,7 +91,7 @@ nav li a:hover {
     background-color: #ecf0f1;
     color: #2c3e50;
 }
-
+/* Search input focus effect */
 .search-container input:focus {
     outline: none;
     border-color: #e74c3c;
@@ -112,7 +113,7 @@ h1, h2, h3, h4, h5 {
     margin: 20px 0;
     font-family: 'Arial', sans-serif;
 }
-
+/* Main headings */
 h2 {
     font-size: 2em;
     margin-bottom: 30px;
@@ -120,7 +121,7 @@ h2 {
     border-bottom: 2px solid #e74c3c;
     padding-bottom: 10px;
 }
-
+/* Subheadings */
 p {
     color: #bdc3c7;
     margin: 15px 0;
@@ -133,7 +134,7 @@ a {
     text-decoration: none;
     font-weight: bold;
 }
-
+/* Link hover effect */
 a:hover {
     color: #2980b9;
     text-decoration: underline;
@@ -155,7 +156,7 @@ a:hover {
     transition: all 0.3s ease;
     font-weight: bold;
 }
-
+/* Menu button hover effect */
 .menu-button:hover {
     background-color: #c0392b;
     transform: translateY(-2px);
@@ -163,7 +164,7 @@ a:hover {
     color: white;
     text-decoration: none;
 }
-
+/* Menu button focus effect */
 .menu-button:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
@@ -179,24 +180,24 @@ a:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.2s ease;
 }
-
+/* Weapon item hover effect */
 .weapon-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-
+/* Weapon item headings */
 .weapon-item h3 {
     color: #ecf0f1;
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 1.3em;
 }
-
+/* Weapon item paragraphs */
 .weapon-item p {
     margin: 8px 0;
     color: #bdc3c7;
 }
-
+/* Weapon item strong text */
 .weapon-item strong {
     color: #e74c3c;
 }
@@ -208,7 +209,7 @@ a:hover {
     gap: 20px;
     margin: 30px 0;
 }
-
+/* Table card styling */
 .table-card {
     background-color: #34495e;
     padding: 25px;
@@ -218,19 +219,19 @@ a:hover {
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
+/* Table card hover effect */
 .table-card:hover {
     border-color: #e74c3c;
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
-
+/* Table card headings */
 .table-card h3 {
     color: #ecf0f1;
     margin-top: 0;
     margin-bottom: 15px;
 }
-
+/* Table card paragraphs */
 .table-card p {
     margin-bottom: 20px;
     color: #bdc3c7;
@@ -246,7 +247,7 @@ a:hover {
     text-align: center;
     margin: 30px 0;
 }
-
+/* Navigation button styles */
 .navigation-buttons .menu-button {
     margin: 0 10px;
 }
@@ -257,7 +258,7 @@ ul:not(nav ul) {
     margin-left: 30px;
     color: #bdc3c7;
 }
-
+/* Unordered list items */
 ul:not(nav ul) li {
     margin: 8px 0;
     color: #bdc3c7;
@@ -278,7 +279,7 @@ footer {
     text-align: center;
     padding: 50px 20px;
 }
-
+/* Error container headings */
 .error-container h1 {
     font-size: 4em;
     color: #e74c3c;
@@ -290,72 +291,72 @@ footer {
     header h1 {
         font-size: 2em;
     }
-    
+    /* Navigation styles */
     nav ul {
         flex-direction: column;
     }
-    
+    /* Navigation list items */
     nav li {
         width: 100%;
     }
-    
+    /* Navigation link styles */
     .search-container input {
         min-width: 200px;
         width: 100%;
         max-width: 300px;
     }
-    
+    /* Search form styles */
     .search-container form {
         flex-direction: column;
         gap: 15px;
     }
-    
+    /* Main content padding */
     main {
         padding: 20px 10px;
     }
-    
+    /* Tables grid */
     .tables-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-    
+    /* Table card styles */
     .weapon-item {
         margin: 10px 0;
         padding: 15px;
     }
-    
+    /* Menu button styles */
     .navigation-buttons .menu-button {
         display: block;
         margin: 10px auto;
         width: 200px;
     }
 }
-
+/* Mobile styles */
 @media (max-width: 480px) {
     header {
         padding: 15px 10px;
     }
-    
+    /* Header title */
     header h1 {
         font-size: 1.8em;
     }
-    
+    /* Navigation styles */
     nav li a {
         padding: 12px 16px;
         font-size: 14px;
     }
-    
+    /* Search container */
     .search-container input {
         min-width: 150px;
         font-size: 14px;
         padding: 10px;
     }
-    
+    /* Search form styles */
     .menu-button {
         padding: 10px 20px;
         font-size: 14px;
     }
-    
+    /* Main content */
     h2 {
         font-size: 1.5em;
     }
@@ -384,7 +385,7 @@ footer {
     transition: all 0.3s ease;
     font-weight: bold;
 }
-
+/* Edit button hover effect */
 .menu-button-edit:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
@@ -408,7 +409,7 @@ footer {
     transition: all 0.3s ease;
     font-weight: bold;
 }
-
+/* Delete button hover effect */
 .menu-button-delete:hover {
     background-color: #c0392b;
     transform: translateY(-2px);
