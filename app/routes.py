@@ -82,7 +82,7 @@ def add_plane():
     return render_template('add_plane.html', title="Add New Aircraft")
 
 
-# --- NEW: Route for editing an existing tank ---
+# --- Route for editing an existing tank ---
 @app.route('/edit_tank/<int:id>', methods=['GET', 'POST'])
 def edit_tank(id):
     """Handles editing a tank's details."""
@@ -97,7 +97,7 @@ def edit_tank(id):
     return render_template('edit_tank.html', title="Edit Tank", vehicle=tank)
 
 
-# --- NEW: Route for deleting a tank ---
+# --- Route for deleting a tank ---
 @app.route('/delete_tank/<int:id>', methods=['POST'])
 def delete_tank(id):
     """Handles deleting a tank from the database."""
@@ -108,7 +108,7 @@ def delete_tank(id):
     return redirect(url_for('tanks_list'))
 
 
-# --- NEW: Route for editing an existing plane ---
+# --- Route for editing an existing plane ---
 @app.route('/edit_plane/<int:id>', methods=['GET', 'POST'])
 def edit_plane(id):
     """Handles editing a plane's details."""
@@ -123,7 +123,7 @@ def edit_plane(id):
     return render_template('edit_plane.html', title="Edit Aircraft", vehicle=plane)
 
 
-# --- NEW: Route for deleting a plane ---
+# --- Route for deleting a plane ---
 @app.route('/delete_plane/<int:id>', methods=['POST'])
 def delete_plane(id):
     """Handles deleting a plane from the database."""

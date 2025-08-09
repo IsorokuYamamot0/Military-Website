@@ -20,7 +20,7 @@
                 {% endif %}
                 <p><strong>Description:</strong> {{ vehicle.description }}</p>
 
-                <!-- NEW: Action buttons for Edit and Delete -->
+                <!-- Action buttons for Edit and Delete -->
                 <div class="vehicle-actions">
                     {% if 'Tanks' in title %}
                         <a href="{{ url_for('edit_tank', id=vehicle.id) }}" class="menu-button-edit">Edit</a>
