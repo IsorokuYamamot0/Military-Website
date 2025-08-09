@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "US
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # A secret key is required for session management and flash messages.
-app.config['SECRET_KEY'] = 'your_secret_key'  # This should be a complex, random value in a real application.
+app.config['SECRET_KEY'] = 'Rocky_4730_Nishil_2008'  # This should be a complex, random value in a real application.
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
