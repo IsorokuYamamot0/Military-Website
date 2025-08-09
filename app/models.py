@@ -1,3 +1,5 @@
+# This website is made by Nishil Singh June 1 2025
+
 from app import db
 
 

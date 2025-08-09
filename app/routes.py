@@ -1,3 +1,5 @@
+# This website is made by Nishil Singh June 1 2025
+
 from flask import render_template, request, redirect, url_for, flash
 from sqlalchemy import or_
 from app import app, db

@@ -1,3 +1,4 @@
+<!-- This website is made by Nishil Singh June 1 2025-->
 <!DOCTYPE html>
 <html lang="en">
 {% extends "layout.html" %}
@@ -5,21 +6,31 @@
 {% block content %}
 <h2>{{ title }}</h2>
 <div class="form-container">
+    <!-- Form starts here, method POST -->
     <form action="{{ url_for('add_plane') }}" method="post">
+        <!-- Aircraft Name input -->
         <div class="form-group">
             <label for="name">Aircraft Name</label>
+            <!-- Empty text input for aircraft name -->
             <input type="text" id="name" name="name" required>
         </div>
+        <!-- Role input -->
         <div class="form-group">
             <label for="role">Role</label>
+            <!-- Empty text input for aircraft role -->
             <input type="text" id="role" name="role" required>
         </div>
+        <!-- Description input -->
         <div class="form-group">
             <label for="description">Description</label>
+            <!-- Empty textarea for aircraft description -->
             <textarea id="description" name="description" rows="4" required></textarea>
         </div>
+        <!-- Submit and cancel buttons -->
         <div class="form-actions">
+            <!-- Submit button to add new aircraft -->
             <button type="submit" class="menu-button">Add Aircraft</button>
+            <!-- Cancel link to go back to the aircraft list -->
             <a href="{{ url_for('planes_list') }}" class="menu-button-secondary">Cancel</a>
         </div>
     </form>

@@ -1,15 +1,22 @@
+<!-- This website is made by Nishil Singh June 1 2025-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character set and responsive design -->
     <meta charset="UTF-8">
+    <!-- Set the viewport to ensure the website is responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}USA Military Database{% endblock %}</title>
+    <!-- Link to the external CSS stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- Navigation menu -->
     <header>
+        <!-- Main title of the page -->
         <h1>USA Military Vehicles Database</h1>
         <nav>
+            <!-- Menu buttons linking to different pages --> 
             <ul>
                 <li><a href="{{ url_for('homepage') }}">Home</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
@@ -29,7 +36,9 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
+                <!-- Loop through each message and display it -->
                 {% for category, message in messages %}
+                <!-- Display message with appropriate category class -->
                     <div class="flash-message {{ category }}">{{ message }}</div>
                 {% endfor %}
                 </div>

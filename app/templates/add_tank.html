@@ -1,3 +1,4 @@
+<!-- This website is made by Nishil Singh June 1 2025-->
 <!DOCTYPE html>
 <html lang="en">
 {% extends "layout.html" %}
@@ -5,21 +6,31 @@
 {% block content %}
 <h2>{{ title }}</h2>
 <div class="form-container">
+     <!-- Form starts here, method POST -->
     <form action="{{ url_for('add_tank') }}" method="post">
+         <!-- Tank Name input -->
         <div class="form-group">
             <label for="name">Tank Name</label>
+             <!-- Empty text input for tank name -->
             <input type="text" id="name" name="name" required>
         </div>
+        <!-- Year Introduced input -->
         <div class="form-group">
             <label for="year_introduced">Year Introduced</label>
+            <!-- Empty number input for year introduced -->
             <input type="number" id="year_introduced" name="year_introduced" required>
         </div>
+        <!-- Description input -->
         <div class="form-group">
             <label for="description">Description</label>
+            <!-- Empty textarea for tank description -->
             <textarea id="description" name="description" rows="4" required></textarea>
         </div>
+        <!-- Submit and cancel buttons -->
         <div class="form-actions">
+            <!-- Submit button to add new tank -->
             <button type="submit" class="menu-button">Add Tank</button>
+            <!-- Cancel link to go back to the tank list -->
             <a href="{{ url_for('tanks_list') }}" class="menu-button-secondary">Cancel</a>
         </div>
     </form>
