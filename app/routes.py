@@ -7,33 +7,33 @@ from app.models import Tank, Plane
 
 # --- Application Routes ---
 
-
+# --- Route for the index/home page ---
 @app.route('/')
 def homepage():
     """Renders the main home page."""
     return render_template('index.html')
 
-
+# --- Route for the about page ---
 @app.route('/about')
 def about():
     """Renders the about page."""
     return render_template('about.html')
 
-
+# --- Route for the tank page ---
 @app.route('/tanks')
 def tanks_list():
     """Renders the page showing all tanks."""
     tanks = Tank.query.all()
     return render_template('vehicles.html', vehicles=tanks, title="USA Tanks")
 
-
+# --- Route for the plane page ---
 @app.route('/planes')
 def planes_list():
     """Renders the page showing all aircraft."""
     planes = Plane.query.all()
     return render_template('vehicles.html', vehicles=planes, title="USA Aircraft")
 
-
+# --- Route for adding tank ---
 @app.route('/add_tank', methods=['GET', 'POST'])
 def add_tank():
     """Handles adding a new tank to the database."""
@@ -58,7 +58,7 @@ def add_tank():
 
     return render_template('add_tank.html', title="Add New Tank")
 
-
+# --- Route for adding plane ---
 @app.route('/add_plane', methods=['GET', 'POST'])
 def add_plane():
     """Handles adding a new plane to the database."""
@@ -135,7 +135,7 @@ def delete_plane(id):
     flash(f'Aircraft "{plane.name}" has been deleted.', 'success')
     return redirect(url_for('planes_list'))
 
-
+# --- Search Functionality ---
 @app.route('/search')
 def search():
     """Handles search queries and displays results."""
