@@ -1,4 +1,5 @@
 # This website is made by Nishil Singh June 1 2025
+# Whole Python file was from peices of last year project and from help from a classmate.
 # Import the 'app' and 'db'
 from app import app, db
 

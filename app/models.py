@@ -16,7 +16,7 @@ plane_countries = db.Table('plane_countries',
     db.Column('country_id', db.Integer, db.ForeignKey('country.id'), primary_key=True)
 )
 
-
+# This was made from ai help and the page.
 class Country(db.Model):
     """Represents a country that operates military vehicles."""
     __tablename__ = 'country'
@@ -25,7 +25,7 @@ class Country(db.Model):
 
     def __repr__(self):
         return f"<Country {self.name}>"
-
+# This was made from me and the ai help, then I replecated it to the plane class.
 
 class Tank(db.Model):
     """Represents a tank in the database."""
