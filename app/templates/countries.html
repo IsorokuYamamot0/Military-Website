@@ -1,0 +1,25 @@
+<!-- This website is made by Nishil Singh June 1 2025-->
+{% extends "layout.html" %}
+{% block title %}Countries{% endblock %}
+{% block content %}
+<h2>Countries with Military Vehicles</h2>
+
+{% if countries %}
+    <p>Explore vehicles by country:</p>
+    <div class="tables-grid"> <!-- Reusing tables-grid for country cards -->
+        {% for country in countries %}
+            <div class="table-card">
+                <h3>{{ country.name }}</h3>
+                <!-- Link to view vehicles for this country -->
+                <p><a href="{{ url_for('vehicles_by_country', country_id=country.id) }}" class="menu-button">View Vehicles</a></p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No countries found in the database yet.</p>
+{% endif %}
+
+<div class="navigation-buttons">
+    <a href="{{ url_for('homepage') }}" class="menu-button">Back to Home</a>
+</div>
+{% endblock %}

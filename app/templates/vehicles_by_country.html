@@ -1,0 +1,32 @@
+<!-- This website is made by Nishil Singh June 1 2025-->
+{% extends "layout.html" %}
+{% block title %}Vehicles from {{ country.name }}{% endblock %}
+{% block content %}
+<h2>Military Vehicles from {{ country.name }}</h2>
+
+{% if vehicles %}
+    <p>Displaying {{ vehicles|length }} vehicle(s) for {{ country.name }}.</p>
+    <div class="vehicle-list">
+        {% for vehicle in vehicles %}
+            <div class="weapon-item">
+                <h3>{{ vehicle.name }} ({{ vehicle.type }})</h3>
+                {% if vehicle.role %}<p><strong>Role:</strong> {{ vehicle.role }}</p>{% endif %}
+                {% if vehicle.year_introduced %}<p><strong>Year Introduced:</strong> {{ vehicle.year_introduced }}</p>{% endif %}
+                <p><strong>Description:</strong> {{ vehicle.description }}</p>
+                <p><strong>Operated by:</strong> 
+                    {% for c in vehicle.countries %}
+                        {{ c.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No vehicles found for {{ country.name }} yet.</p>
+{% endif %}
+
+<div class="navigation-buttons">
+    <a href="{{ url_for('countries_list') }}" class="menu-button">Back to Countries</a>
+    <a href="{{ url_for('homepage') }}" class="menu-button">Back to Home</a>
+</div>
+{% endblock %}

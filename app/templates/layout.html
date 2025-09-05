@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <!-- Set the viewport to ensure the website is responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}USA Military Database{% endblock %}</title>
+    <title>{% block title %}Military Vehicles Database{% endblock %}</title>
     <!-- Link to the external CSS stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -14,14 +14,15 @@
     <!-- Navigation menu -->
     <header>
         <!-- Main title of the page -->
-        <h1>USA Military Vehicles Database</h1>
+        <h1>Military Vehicles Database</h1>
         <nav>
             <!-- Menu buttons linking to different pages --> 
             <ul>
                 <li><a href="{{ url_for('homepage') }}">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
                 <li><a href="{{ url_for('tanks_list') }}">Tanks</a></li>
                 <li><a href="{{ url_for('planes_list') }}">Planes</a></li>
+                <li><a href="{{ url_for('countries_list') }}">Countries</a></li> <!-- New link for countries -->
+                <li><a href="{{ url_for('about') }}">About</a></li>
             </ul>
         </nav>
         <div class="search-container">

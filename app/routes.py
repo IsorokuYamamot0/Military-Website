@@ -3,7 +3,7 @@
 from flask import render_template, request, redirect, url_for, flash
 from sqlalchemy import or_
 from app import app, db
-from app.models import Tank, Plane
+from app.models import Tank, Plane, Country # Import the new Country model
 
 # --- Application Routes ---
 
@@ -23,26 +23,53 @@ def about():
 @app.route('/tanks')
 def tanks_list():
     """Renders the page showing all tanks."""
-    tanks = Tank.query.all()
-    return render_template('vehicles.html', vehicles=tanks, title="USA Tanks")
+    # Eagerly load countries to avoid N+1 queries in template
+    tanks = Tank.query.options(db.joinedload(Tank.countries)).all()
+    return render_template('vehicles.html', vehicles=tanks, title="Tanks")
 
 # --- Route for the plane page ---
 @app.route('/planes')
 def planes_list():
     """Renders the page showing all aircraft."""
-    planes = Plane.query.all()
-    return render_template('vehicles.html', vehicles=planes, title="USA Aircraft")
+    # Eagerly load countries to avoid N+1 queries in template
+    planes = Plane.query.options(db.joinedload(Plane.countries)).all()
+    return render_template('vehicles.html', vehicles=planes, title="Aircraft")
+
+# --- Route for listing all countries ---
+@app.route('/countries')
+def countries_list():
+    """Renders the page showing all countries."""
+    countries = Country.query.all()
+    return render_template('countries.html', countries=countries)
+
+# --- Route for listing vehicles by a specific country ---
+@app.route('/countries/<int:country_id>')
+def vehicles_by_country(country_id):
+    """Renders the page showing tanks and planes for a specific country."""
+    country = Country.query.get_or_404(country_id)
+    # Get tanks and planes associated with this country
+    tanks = country.tanks.options(db.joinedload(Tank.countries)).all()
+    planes = country.planes.options(db.joinedload(Plane.countries)).all()
+    
+    # Combine and sort vehicles if desired, or keep separate
+    all_vehicles = sorted(tanks + planes, key=lambda v: v.name)
+
+    return render_template('vehicles_by_country.html', country=country, vehicles=all_vehicles)
+
 
 # --- Route for adding tank ---
 @app.route('/add_tank', methods=['GET', 'POST'])
 def add_tank():
     """Handles adding a new tank to the database."""
+    all_countries = Country.query.order_by(Country.name).all() # Get all countries for the form
+
     if request.method == 'POST':
         name = request.form.get('name')
         description = request.form.get('description')
         year_introduced = request.form.get('year_introduced')
+        selected_country_ids = request.form.getlist('countries') # Get list of selected country IDs
 
-        if not name or not description or not year_introduced:
+        if not name or not description or not year_introduced or not selected_country_ids:
             flash('All fields are required!', 'error')
             return redirect(url_for('add_tank'))
 
@@ -51,23 +78,33 @@ def add_tank():
             description=description,
             year_introduced=int(year_introduced)
         )
+        
+        # Add selected countries to the tank
+        for country_id in selected_country_ids:
+            country = Country.query.get(country_id)
+            if country:
+                new_tank.countries.append(country)
+
         db.session.add(new_tank)
         db.session.commit()
         flash(f'Tank "{name}" added successfully!', 'success')
         return redirect(url_for('tanks_list'))
 
-    return render_template('add_tank.html', title="Add New Tank")
+    return render_template('add_tank.html', title="Add New Tank", all_countries=all_countries)
 
 # --- Route for adding plane ---
 @app.route('/add_plane', methods=['GET', 'POST'])
 def add_plane():
     """Handles adding a new plane to the database."""
+    all_countries = Country.query.order_by(Country.name).all() # Get all countries for the form
+
     if request.method == 'POST':
         name = request.form.get('name')
         role = request.form.get('role')
         description = request.form.get('description')
+        selected_country_ids = request.form.getlist('countries') # Get list of selected country IDs
 
-        if not name or not role or not description:
+        if not name or not role or not description or not selected_country_ids:
             flash('All fields are required!', 'error')
             return redirect(url_for('add_plane'))
 
@@ -76,27 +113,47 @@ def add_plane():
             role=role,
             description=description
         )
+
+        # Add selected countries to the plane
+        for country_id in selected_country_ids:
+            country = Country.query.get(country_id)
+            if country:
+                new_plane.countries.append(country)
+
         db.session.add(new_plane)
         db.session.commit()
         flash(f'Aircraft "{name}" added successfully!', 'success')
         return redirect(url_for('planes_list'))
 
-    return render_template('add_plane.html', title="Add New Aircraft")
+    return render_template('add_plane.html', title="Add New Aircraft", all_countries=all_countries)
 
 
 # --- Route for editing an existing tank ---
 @app.route('/edit_tank/<int:id>', methods=['GET', 'POST'])
 def edit_tank(id):
     """Handles editing a tank's details."""
-    tank = Tank.query.get_or_404(id)
+    tank = Tank.query.options(db.joinedload(Tank.countries)).get_or_404(id)
+    all_countries = Country.query.order_by(Country.name).all() # Get all countries for the form
+
     if request.method == 'POST':
         tank.name = request.form['name']
         tank.description = request.form['description']
         tank.year_introduced = int(request.form['year_introduced'])
+        selected_country_ids = request.form.getlist('countries')
+
+        # Clear existing country associations
+        tank.countries.clear()
+        # Add new selected country associations
+        for country_id in selected_country_ids:
+            country = Country.query.get(country_id)
+            if country:
+                tank.countries.append(country)
+
         db.session.commit()
         flash(f'Tank "{tank.name}" updated successfully!', 'success')
         return redirect(url_for('tanks_list'))
-    return render_template('edit_tank.html', title="Edit Tank", vehicle=tank)
+    
+    return render_template('edit_tank.html', title="Edit Tank", vehicle=tank, all_countries=all_countries)
 
 
 # --- Route for deleting a tank ---
@@ -114,51 +171,17 @@ def delete_tank(id):
 @app.route('/edit_plane/<int:id>', methods=['GET', 'POST'])
 def edit_plane(id):
     """Handles editing a plane's details."""
-    plane = Plane.query.get_or_404(id)
+    plane = Plane.query.options(db.joinedload(Plane.countries)).get_or_404(id)
+    all_countries = Country.query.order_by(Country.name).all() # Get all countries for the form
+
     if request.method == 'POST':
         plane.name = request.form['name']
         plane.role = request.form['role']
         plane.description = request.form['description']
-        db.session.commit()
-        flash(f'Aircraft "{plane.name}" updated successfully!', 'success')
-        return redirect(url_for('planes_list'))
-    return render_template('edit_plane.html', title="Edit Aircraft", vehicle=plane)
+        selected_country_ids = request.form.getlist('countries')
 
-
-# --- Route for deleting a plane ---
-@app.route('/delete_plane/<int:id>', methods=['POST'])
-def delete_plane(id):
-    """Handles deleting a plane from the database."""
-    plane = Plane.query.get_or_404(id)
-    db.session.delete(plane)
-    db.session.commit()
-    flash(f'Aircraft "{plane.name}" has been deleted.', 'success')
-    return redirect(url_for('planes_list'))
-
-# --- Search Functionality ---
-@app.route('/search')
-def search():
-    """Handles search queries and displays results."""
-    query = request.args.get('q', '')
-    if not query:
-        return render_template('search_results.html', query=query, vehicles=[])
-
-    search_term = f"%{query}%"
-    tanks = Tank.query.filter(or_(Tank.name.ilike(search_term), Tank.description.ilike(search_term))).all()
-    planes = Plane.query.filter(or_(Plane.name.ilike(search_term), Plane.description.ilike(search_term), Plane.role.ilike(search_term))).all()
-    results = tanks + planes
-    return render_template('search_results.html', query=query, vehicles=results)
-
-
-# --- Error Handlers ---
-# Custom 404 error handler
-@app.errorhandler(404)
-def page_not_found(e):
-    """Renders the 404 error page."""
-    return render_template("404.html"), 404
-
-# Custom 500 error handler
-@app.errorhandler(500)
-def internal_server_error(e):
-    """Renders the 500 error page for server errors."""
-    return render_template("500.html"), 500
+        # Clear existing country associations
+        plane.countries.clear()
+        # Add new selected country associations
+        for country_id in selected_country_ids:
+            country = Country.query.get(country_id

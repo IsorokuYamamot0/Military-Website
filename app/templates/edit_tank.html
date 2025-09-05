@@ -26,6 +26,20 @@
             <!-- Textarea pre-filled with the tank description -->
             <textarea id="description" name="description" rows="4" required>{{ vehicle.description }}</textarea>
         </div>
+        <!-- Country selection for the tank -->
+        <div class="form-group">
+            <label for="countries">Operated by Countries</label>
+            <!-- Multiple select dropdown for countries, pre-selecting current countries -->
+            <select id="countries" name="countries" multiple required>
+                {% for country in all_countries %}
+                    <option value="{{ country.id }}" 
+                        {% if country in vehicle.countries %}selected{% endif %}>
+                        {{ country.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <p class="help-text">Hold Ctrl/Cmd to select multiple countries.</p>
+        </div>
         <!-- Buttons for submitting or canceling -->
         <div class="form-actions">
             <!-- Submit button to update tank -->

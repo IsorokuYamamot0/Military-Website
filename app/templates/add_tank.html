@@ -26,6 +26,17 @@
             <!-- Empty textarea for tank description -->
             <textarea id="description" name="description" rows="4" required></textarea>
         </div>
+        <!-- Country selection for the tank -->
+        <div class="form-group">
+            <label for="countries">Operated by Countries</label>
+            <!-- Multiple select dropdown for countries -->
+            <select id="countries" name="countries" multiple required>
+                {% for country in all_countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+            <p class="help-text">Hold Ctrl/Cmd to select multiple countries.</p>
+        </div>
         <!-- Submit and cancel buttons -->
         <div class="form-actions">
             <!-- Submit button to add new tank -->
