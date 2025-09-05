@@ -198,3 +198,65 @@ def edit_plane(id):
             country = Country.query.get(country_id)
             if country:
                 plane.countries.append(country)
+
+        db.session.commit()
+        flash(f'Aircraft "{plane.name}" updated successfully!', 'success')
+        return redirect(url_for('planes_list'))
+    return render_template('edit_plane.html', title="Edit Aircraft", vehicle=plane, all_countries=all_countries)
+
+# --- Route for deleting a plane ---
+@app.route('/delete_plane/<int:id>', methods=['POST'])
+def delete_plane(id):
+    """Handles deleting a plane from the database."""
+    plane = Plane.query.get_or_404(id)
+    db.session.delete(plane)
+    db.session.commit()
+    flash(f'Aircraft "{plane.name}" has been deleted.', 'success')
+    return redirect(url_for('planes_list'))
+
+# --- Route for searching vehicles ---
+@app.route('/search')
+def search():
+    """Handles searching for tanks and planes by name or description."""
+    query = request.args.get('q', '').strip()
+    results = []
+
+    if query:
+        # Search for tanks
+        tanks = Tank.query.options(db.joinedload(Tank.countries)).filter(
+            or_(
+                Tank.name.ilike(f'%{query}%'),
+                Tank.description.ilike(f'%{query}%')
+            )
+        ).all()
+        for tank in tanks:
+            tank.type = 'Tank' # Add type for display
+            results.append(tank)
+
+        # Search for planes
+        planes = Plane.query.options(db.joinedload(Plane.countries)).filter(
+            or_(
+                Plane.name.ilike(f'%{query}%'),
+                Plane.description.ilike(f'%{query}%'),
+                Plane.role.ilike(f'%{query}%')
+            )
+        ).all()
+        for plane in planes:
+            plane.type = 'Aircraft' # Add type for display
+            results.append(plane)
+
+    # Sort results by name for consistent display
+    results.sort(key=lambda x: x.name)
+    return render_template('search_results.html', vehicles=results, query=query)
+
+# --- Error Handlers ---
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """Custom 404 error page."""
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    """Custom 500 error page."""
+    return render_template('500.html'), 500
