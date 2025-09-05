@@ -3,23 +3,31 @@
 from flask import render_template, request, redirect, url_for, flash
 from sqlalchemy import or_
 from app import app, db
-from app.models import Tank, Plane, Country # Import the new Country model
+from app.models import Tank, Plane, Country
+
+# Import the new Country model
 
 # --- Application Routes ---
 
 # --- Route for the index/home page ---
+
+
 @app.route('/')
 def homepage():
     """Renders the main home page."""
     return render_template('index.html')
 
 # --- Route for the about page ---
+
+
 @app.route('/about')
 def about():
     """Renders the about page."""
     return render_template('about.html')
 
 # --- Route for the tank page ---
+
+
 @app.route('/tanks')
 def tanks_list():
     """Renders the page showing all tanks."""
@@ -28,6 +36,8 @@ def tanks_list():
     return render_template('vehicles.html', vehicles=tanks, title="Tanks")
 
 # --- Route for the plane page ---
+
+
 @app.route('/planes')
 def planes_list():
     """Renders the page showing all aircraft."""
@@ -36,6 +46,8 @@ def planes_list():
     return render_template('vehicles.html', vehicles=planes, title="Aircraft")
 
 # --- Route for listing all countries ---
+
+
 @app.route('/countries')
 def countries_list():
     """Renders the page showing all countries."""
@@ -43,6 +55,8 @@ def countries_list():
     return render_template('countries.html', countries=countries)
 
 # --- Route for listing vehicles by a specific country ---
+
+
 @app.route('/countries/<int:country_id>')
 def vehicles_by_country(country_id):
     """Renders the page showing tanks and planes for a specific country."""
@@ -50,7 +64,6 @@ def vehicles_by_country(country_id):
     # Get tanks and planes associated with this country
     tanks = country.tanks.options(db.joinedload(Tank.countries)).all()
     planes = country.planes.options(db.joinedload(Plane.countries)).all()
-    
     # Combine and sort vehicles if desired, or keep separate
     all_vehicles = sorted(tanks + planes, key=lambda v: v.name)
 
@@ -78,7 +91,6 @@ def add_tank():
             description=description,
             year_introduced=int(year_introduced)
         )
-        
         # Add selected countries to the tank
         for country_id in selected_country_ids:
             country = Country.query.get(country_id)
@@ -152,7 +164,6 @@ def edit_tank(id):
         db.session.commit()
         flash(f'Tank "{tank.name}" updated successfully!', 'success')
         return redirect(url_for('tanks_list'))
-    
     return render_template('edit_tank.html', title="Edit Tank", vehicle=tank, all_countries=all_countries)
 
 
@@ -184,4 +195,6 @@ def edit_plane(id):
         plane.countries.clear()
         # Add new selected country associations
         for country_id in selected_country_ids:
-            country = Country.query.get(country_id
+            country = Country.query.get(country_id)
+            if country:
+                plane.countries.append(country)
