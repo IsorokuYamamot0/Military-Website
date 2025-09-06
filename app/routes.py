@@ -29,6 +29,7 @@ def about():
 # --- Route for the tank page ---
 # This made from ai help and the page.
 
+
 @app.route('/tanks')
 def tanks_list():
     """Renders the page showing all tanks."""
@@ -70,8 +71,8 @@ def vehicles_by_country(country_id):
     # Get tanks and planes associated with this country directly
     # country.tanks and country.planes are already lists due to the backref
     tanks = country.tanks  # This is already a list of Tank objects
-    planes = country.planes # This is already a list of Plane objects
-    
+    planes = country.planes  # This is already a list of Plane objects
+
     # Combine and sort vehicles if desired, or keep separate
     all_vehicles = sorted(list(tanks) + list(planes), key=lambda v: v.name)
 
@@ -241,6 +242,7 @@ def delete_plane(id):
 # --- Route for searching vehicles ---
 # This tooke time for me to figure out. Had ai help me with this route and the page.
 
+
 @app.route('/search')
 def search():
     """Handles searching for tanks and planes by name or description."""
@@ -256,7 +258,7 @@ def search():
             )
         ).all()
         for tank in tanks:
-            tank.type = 'Tank' # Add type for display
+            tank.type = 'Tank'  # Add type for display
             results.append(tank)
 
         # Search for planes
@@ -277,6 +279,7 @@ def search():
 
 # --- Error Handlers ---
 # These two error handlers were added by me from last years project adn will trigger when a 404 or 500 error occurs.
+
 
 @app.errorhandler(404)
 def page_not_found(e):
