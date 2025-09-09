@@ -23,6 +23,11 @@
                 <li><a href="{{ url_for('planes_list') }}">Planes</a></li>
                 <li><a href="{{ url_for('countries_list') }}">Countries</a></li>
                 {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <li><a href="{{ url_for('add_tank') }}">Add Tank</a></li>
+                        <li><a href="{{ url_for('add_plane') }}">Add Plane</a></li>
+                        <li><a href="{{ url_for('add_country') }}">Add Country</a></li>
+                    {% endif %}
                     <li><a href="{{ url_for('favorites') }}">My Favorites</a></li>
                 {% endif %}
                 <li><a href="{{ url_for('about') }}">About</a></li>

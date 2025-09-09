@@ -437,6 +437,25 @@ def favorites():
     )
     return render_template('favorites.html', vehicles=all_favorited_vehicles, title="My Favorites")
 
+# --- New Route for adding countries ---
+@app.route('/add_country', methods=['GET', 'POST'])
+@admin_required # Protect this route with admin decorator
+def add_country():
+    """Handles adding a new country to the database."""
+    if request.method == 'POST':
+        name = request.form.get('name').strip()
+        if not name:
+            flash('Country name is required!', 'error')
+        elif Country.query.filter_by(name=name).first():
+            flash(f'Country "{name}" already exists!', 'error')
+        else:
+            new_country = Country(name=name)
+            db.session.add(new_country)
+            db.session.commit()
+            flash(f'Country "{name}" added successfully!', 'success')
+            return redirect(url_for('countries_list'))
+    return render_template('add_country.html', title="Add New Country")
+
 
 # --- Error Handlers ---
 # These two error handlers were added by me from last years project adn will trigger when a 404 or 500 error occurs.

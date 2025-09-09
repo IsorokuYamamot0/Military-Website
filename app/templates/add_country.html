@@ -1,0 +1,22 @@
+<!-- templates/add_country.html -->
+<!-- This website is made by Nishil Singh June 1 2025-->
+<!DOCTYPE html>
+<html lang="en">
+{% extends "layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{ title }}</h2>
+<div class="form-container">
+    <form action="{{ url_for('add_country') }}" method="post">
+        <div class="form-group">
+            <label for="name">Country Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="menu-button">Add Country</button>
+            <a href="{{ url_for('countries_list') }}" class="menu-button-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+</html>
