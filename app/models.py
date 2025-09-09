@@ -1,6 +1,9 @@
+
 # This website is made by Nishil Singh June 1 2025
 
 from app import db
+from flask_login import UserMixin # Import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash # For password hashing
 
 # Association table for the many-to-many relationship between Tank and Country
 # It links tanks to the countries that operate them.
@@ -14,6 +17,18 @@ tank_countries = db.Table('tank_countries',
 plane_countries = db.Table('plane_countries',
     db.Column('plane_id', db.Integer, db.ForeignKey('plane.id'), primary_key=True),
     db.Column('country_id', db.Integer, db.ForeignKey('country.id'), primary_key=True)
+)
+
+# New association table for user favorites (Tanks)
+user_favorite_tanks = db.Table('user_favorite_tanks',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('tank_id', db.Integer, db.ForeignKey('tank.id'), primary_key=True)
+)
+
+# New association table for user favorites (Planes)
+user_favorite_planes = db.Table('user_favorite_planes',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('plane_id', db.Integer, db.ForeignKey('plane.id'), primary_key=True)
 )
 
 # This was made from ai help and the page.
@@ -70,3 +85,27 @@ class Plane(db.Model):
 
     def __repr__(self):
         return f"<Plane {self.name}>"
+
+# New User model for authentication
+class User(UserMixin, db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False) # New field for admin status
+
+    # Many-to-many relationship for favorited tanks
+    favorite_tanks = db.relationship('Tank', secondary=user_favorite_tanks, lazy=True,
+                                     backref=db.backref('favorited_by_users', lazy=True))
+    # Many-to-many relationship for favorited planes
+    favorite_planes = db.relationship('Plane', secondary=user_favorite_planes, lazy=True,
+                                      backref=db.backref('favorited_by_users', lazy=True))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f"<User {self.username}>"

@@ -21,7 +21,10 @@
                 <li><a href="{{ url_for('homepage') }}">Home</a></li>
                 <li><a href="{{ url_for('tanks_list') }}">Tanks</a></li>
                 <li><a href="{{ url_for('planes_list') }}">Planes</a></li>
-                <li><a href="{{ url_for('countries_list') }}">Countries</a></li> <!-- New link for countries -->
+                <li><a href="{{ url_for('countries_list') }}">Countries</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('favorites') }}">My Favorites</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('about') }}">About</a></li>
             </ul>
         </nav>
@@ -30,6 +33,16 @@
                 <input type="text" name="q" placeholder="Search for tanks or planes..." required>
                 <button type="submit" class="menu-button">Search</button>
             </form>
+        </div>
+        <!-- Authentication buttons -->
+        <div class="auth-buttons">
+            {% if current_user.is_authenticated %}
+                <span style="color: #C1D29E; margin-right: 10px;">Hello, {{ current_user.username }}! {% if current_user.is_admin %}(Admin){% endif %}</span>
+                <a href="{{ url_for('logout') }}" class="menu-button">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="menu-button">Login</a>
+                <a href="{{ url_for('register') }}" class="menu-button-secondary">Register</a>
+            {% endif %}
         </div>
     </header>
     <main>

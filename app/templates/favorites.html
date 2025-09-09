@@ -1,0 +1,52 @@
+<!-- This website is made by Nishil Singh June 1 2025-->
+<!DOCTYPE html>
+<html lang="en">
+{% extends "layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{ title }}</h2>
+
+{% if vehicles %}
+    <p>Displaying {{ vehicles|length }} favorited vehicle(s).</p>
+    <div class="vehicle-list">
+        {% for vehicle in vehicles %}
+            <div class="weapon-item">
+                <h3>{{ vehicle.name }} ({{ vehicle.type }})</h3>
+                {% if vehicle.role %}
+                <p><strong>Role:</strong> {{ vehicle.role }}</p>
+                {% endif %}
+                {% if vehicle.year_introduced %}
+                <p><strong>Year Introduced:</strong> {{ vehicle.year_introduced }}</p>
+                {% endif %}
+                <p><strong>Description:</strong> {{ vehicle.description }}</p>
+                <p><strong>Operated by:</strong> 
+                    {% for country in vehicle.countries %}
+                        {{ country.name }}{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        No countries assigned.
+                    {% endfor %}
+                </p>
+                <div class="vehicle-actions">
+                    {# This section allows unfavoriting from the favorites page #}
+                    {% if vehicle.type == 'Tank' %}
+                        <form action="{{ url_for('unfavorite_tank', tank_id=vehicle.id) }}" method="post">
+                            <button type="submit" class="menu-button-secondary">Unfavorite Tank</button>
+                        </form>
+                    {% elif vehicle.type == 'Aircraft' %}
+                        <form action="{{ url_for('unfavorite_plane', plane_id=vehicle.id) }}" method="post">
+                            <button type="submit" class="menu-button-secondary">Unfavorite Aircraft</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>You have not favorited any vehicles yet.</p>
+{% endif %}
+
+<div class="navigation-buttons">
+    <a href="{{ url_for('homepage') }}" class="menu-button">Back to Home</a>
+</div>
+{% endblock %}
+</html>
