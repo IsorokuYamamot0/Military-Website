@@ -12,8 +12,8 @@
 body, html {
     height: 100%;
     font-family: 'Roboto', sans-serif; /* Modern font */
-    background-color: #1a1a2e; /* Darker background */
-    color: #e0e0e0; /* Lighter text for contrast */
+    background-color: #2E3B2E; /* Dark Olive Green */
+    color: #E0E0E0; /* Lighter text for contrast */
     line-height: 1.6;
 }
 
@@ -26,17 +26,17 @@ body {
 
 /* Header styling */
 header {
-    background-color: #16213e; /* Dark blue */
+    background-color: #3C473C; /* Slightly Lighter Olive Green */
     color: white;
     padding: 25px 20px; /* Increased padding */
     text-align: center;
-    border-bottom: 3px solid #0f3460; /* Deep blue accent */
+    border-bottom: 3px solid #5A6A5A; /* Deep Green Accent */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 header h1 {
     margin: 0 0 25px 0; /* Increased margin */
-    color: #e94560; /* Striking accent color for title */
+    color: #C1D29E; /* Light Camo Green Accent for title */
     font-size: 2.8em; /* Slightly larger title */
     text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
     font-family: 'Montserrat', sans-serif; /* Different font for title */
@@ -47,7 +47,7 @@ nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: #0f3460; /* Darker blue for nav */
+    background-color: #5A6A5A; /* Darker Green for nav */
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -70,8 +70,8 @@ nav li a {
 
 /* Navigation link hover effect */
 nav li a:hover {
-    background-color: #e94560; /* Accent color on hover */
-    color: white;
+    background-color: #C1D29E; /* Accent color on hover */
+    color: #3C473C; /* Darker text on hover */
 }
 
 /* Search container */
@@ -93,18 +93,18 @@ nav li a:hover {
 .search-container input {
     padding: 14px; /* More padding */
     font-size: 17px; /* Larger font */
-    border: 2px solid #0f3460; /* Border matches nav */
+    border: 2px solid #5A6A5A; /* Border matches nav */
     border-radius: 8px; /* More rounded */
     min-width: 320px; /* Slightly wider */
-    background-color: #e0e0e0; /* Light background for input */
-    color: #1a1a2e;
+    background-color: #E0E0E0; /* Light background for input */
+    color: #2E3B2E;
 }
 
 /* Search input focus effect */
 .search-container input:focus {
     outline: none;
-    border-color: #e94560; /* Accent on focus */
-    box-shadow: 0 0 8px rgba(233, 69, 96, 0.4);
+    border-color: #C1D29E; /* Accent on focus */
+    box-shadow: 0 0 8px rgba(193, 210, 158, 0.4);
 }
 
 /* Main content */
@@ -118,7 +118,7 @@ main {
 
 /* Typography */
 h1, h2, h3, h4, h5 {
-    color: #e94560; /* Accent color for headings */
+    color: #C1D29E; /* Accent color for headings */
     margin: 25px 0 15px 0;
     font-family: 'Montserrat', sans-serif;
 }
@@ -128,35 +128,35 @@ h2 {
     font-size: 2.2em;
     margin-bottom: 35px;
     text-align: center;
-    border-bottom: 2px solid #0f3460;
+    border-bottom: 2px solid #5A6A5A;
     padding-bottom: 15px;
 }
 
 /* Subheadings */
 p {
-    color: #b0b0b0; /* Slightly darker text for body */
+    color: #B0B0B0; /* Slightly darker text for body */
     margin: 18px 0;
     font-size: 1.15em;
 }
 
 /* Links */
 a {
-    color: #5d89b9; /* A different shade of blue for links */
+    color: #8C9F7E; /* A different shade of green for links */
     text-decoration: none;
     font-weight: bold;
 }
 
 /* Link hover effect */
 a:hover {
-    color: #7ab2e2;
+    color: #A3B597;
     text-decoration: underline;
 }
 
 /* Buttons */
 .menu-button {
-    background-color: #e94560; /* Accent color */
+    background-color: #C1D29E; /* Accent color */
     border: none;
-    color: white;
+    color: #2E3B2E;
     padding: 14px 28px; /* More padding */
     text-align: center;
     text-decoration: none;
@@ -172,26 +172,26 @@ a:hover {
 
 /* Menu button hover effect */
 .menu-button:hover {
-    background-color: #d13a52; /* Darker accent on hover */
+    background-color: #A3B597; /* Darker accent on hover */
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-    color: white;
+    color: #2E3B2E;
     text-decoration: none;
 }
 
 /* Menu button focus effect */
 .menu-button:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.4);
+    box-shadow: 0 0 0 4px rgba(193, 210, 158, 0.4);
 }
 
 /* Weapon items (cards) */
 .weapon-item {
-    background-color: #16213e; /* Dark blue background for cards */
+    background-color: #3C473C; /* Dark green background for cards */
     padding: 25px; /* More padding */
     margin: 20px 0; /* More margin */
     border-radius: 10px; /* More rounded corners */
-    border-left: 5px solid #0f3460; /* Deeper blue accent bar */
+    border-left: 5px solid #5A6A5A; /* Deeper green accent bar */
     box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -204,7 +204,7 @@ a:hover {
 
 /* Weapon item headings */
 .weapon-item h3 {
-    color: #e0e0e0; /* Light color for card titles */
+    color: #E0E0E0; /* Light color for card titles */
     margin-top: 0;
     margin-bottom: 12px;
     font-size: 1.4em;
@@ -214,12 +214,12 @@ a:hover {
 /* Weapon item paragraphs */
 .weapon-item p {
     margin: 10px 0;
-    color: #c0c0c0; /* Slightly lighter text in cards */
+    color: #C0C0C0; /* Slightly lighter text in cards */
 }
 
 /* Weapon item strong text */
 .weapon-item strong {
-    color: #e94560; /* Accent for strong text */
+    color: #C1D29E; /* Accent for strong text */
 }
 
 /* Tables grid (for countries) */
@@ -232,25 +232,25 @@ a:hover {
 
 /* Table card styling */
 .table-card {
-    background-color: #16213e; /* Dark blue background */
+    background-color: #3C473C; /* Dark green background */
     padding: 30px; /* More padding */
     border-radius: 12px; /* More rounded */
     text-align: center;
-    border: 2px solid #0f3460;
+    border: 2px solid #5A6A5A;
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 /* Table card hover effect */
 .table-card:hover {
-    border-color: #e94560; /* Accent on hover */
+    border-color: #C1D29E; /* Accent on hover */
     transform: translateY(-7px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
 /* Table card headings */
 .table-card h3 {
-    color: #e0e0e0;
+    color: #E0E0E0;
     margin-top: 0;
     margin-bottom: 18px;
     font-size: 1.6em;
@@ -259,7 +259,7 @@ a:hover {
 /* Table card paragraphs */
 .table-card p {
     margin-bottom: 25px;
-    color: #b0b0b0;
+    color: #B0B0B0;
 }
 
 /* Search results */
@@ -282,23 +282,23 @@ a:hover {
 ul:not(nav ul) {
     list-style-type: '👉 '; /* Custom bullet point */
     margin-left: 35px;
-    color: #b0b0b0;
+    color: #B0B0B0;
 }
 
 /* Unordered list items */
 ul:not(nav ul) li {
     margin: 10px 0;
-    color: #c0c0c0;
+    color: #C0C0C0;
     font-size: 1.1em;
 }
 
 /* Footer */
 footer {
-    background-color: #16213e;
+    background-color: #3C473C;
     color: #808080; /* Slightly lighter grey */
     text-align: center;
     padding: 25px;
-    border-top: 3px solid #0f3460;
+    border-top: 3px solid #5A6A5A;
     margin-top: auto;
     font-size: 0.9em;
 }
@@ -312,7 +312,7 @@ footer {
 /* Error container headings */
 .error-container h1 {
     font-size: 4.5em;
-    color: #e94560;
+    color: #C1D29E;
     margin-bottom: 25px;
 }
 .error-container p {
@@ -436,9 +436,9 @@ footer {
 
 /* Edit button styling */
 .menu-button-edit {
-    background-color: #5d89b9; /* Consistent link blue */
+    background-color: #8C9F7E; /* Consistent link green */
     border: none;
-    color: white;
+    color: #2E3B2E;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -452,17 +452,17 @@ footer {
 
 /* Edit button hover effect */
 .menu-button-edit:hover {
-    background-color: #7ab2e2; /* Lighter blue on hover */
+    background-color: #A3B597; /* Lighter green on hover */
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    color: white;
+    color: #2E3B2E;
     text-decoration: none;
 }
 
 /* Delete button styling */
 .menu-button-delete {
-    background-color: #9b2323; /* Darker Red */
-    border: 1px solid #c0392b;
+    background-color: #9B2323; /* Darker Red (for danger) */
+    border: 1px solid #C0392B;
     color: white;
     padding: 10px 20px;
     text-align: center;
@@ -477,7 +477,7 @@ footer {
 
 /* Delete button hover effect */
 .menu-button-delete:hover {
-    background-color: #c0392b;
+    background-color: #C0392B;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     color: white;
@@ -526,13 +526,13 @@ footer {
 
 /* Form styling */
 .form-container {
-    background-color: #16213e;
+    background-color: #3C473C;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     max-width: 600px;
     margin: 30px auto;
-    border: 1px solid #0f3460;
+    border: 1px solid #5A6A5A;
 }
 
 .form-group {
@@ -542,31 +542,33 @@ footer {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #e94560; /* Accent color for labels */
+    color: #C1D29E; /* Accent color for labels */
     font-weight: bold;
     font-size: 1.1em;
 }
 
 .form-group input[type="text"],
 .form-group input[type="number"],
+.form-group input[type="password"], /* Added for login */
 .form-group textarea,
 .form-group select {
     width: calc(100% - 24px); /* Account for padding */
     padding: 12px;
-    border: 1px solid #0f3460;
+    border: 1px solid #5A6A5A;
     border-radius: 6px;
-    background-color: #2b2b40;
-    color: #e0e0e0;
+    background-color: #2E3B2E; /* Darker background for input */
+    color: #E0E0E0;
     font-size: 1em;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
+.form-group input[type="password"]:focus, /* Added for login */
 .form-group textarea:focus,
 .form-group select:focus {
-    border-color: #e94560;
-    box-shadow: 0 0 5px rgba(233, 69, 96, 0.5);
+    border-color: #C1D29E;
+    box-shadow: 0 0 5px rgba(193, 210, 158, 0.5);
     outline: none;
 }
 
@@ -596,7 +598,7 @@ footer {
 }
 
 .menu-button-secondary {
-    background-color: #3e4450; /* A neutral grey for secondary actions */
+    background-color: #5A6A5A; /* A neutral green for secondary actions */
     border: none;
     color: white;
     padding: 14px 28px;
@@ -613,9 +615,21 @@ footer {
 }
 
 .menu-button-secondary:hover {
-    background-color: #555c69;
+    background-color: #6D7E6D;
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     color: white;
     text-decoration: none;
+}
+
+/* Added for login/logout buttons in header */
+.auth-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.auth-buttons .menu-button {
+    font-size: 15px;
+    padding: 10px 20px;
 }
