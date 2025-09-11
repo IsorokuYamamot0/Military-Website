@@ -19,6 +19,9 @@
                 <p><strong>Year Introduced:</strong> {{ vehicle.year_introduced }}</p>
                 {% endif %}
                 <p><strong>Description:</strong> {{ vehicle.description }}</p>
+                {% if vehicle.external_link %} {# New: Display external link #}
+                <p><strong>Extra Info:</strong> <a href="{{ vehicle.external_link }}" target="_blank" rel="noopener noreferrer">Learn More on Wikipedia</a></p>
+                {% endif %}
                 <p><strong>Operated by:</strong> 
                     {% for country in vehicle.countries %}
                         {{ country.name }}{% if not loop.last %}, {% endif %}
@@ -27,7 +30,6 @@
                     {% endfor %}
                 </p>
                 <div class="vehicle-actions">
-                    {# This section allows unfavoriting from the favorites page #}
                     {% if vehicle.type == 'Tank' %}
                         <form action="{{ url_for('unfavorite_tank', tank_id=vehicle.id) }}" method="post">
                             <button type="submit" class="menu-button-secondary">Unfavorite Tank</button>

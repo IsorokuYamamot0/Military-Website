@@ -8,19 +8,18 @@
 <h2>Search Results for "{{ query }}"</h2>
 
 {% if vehicles %}
-<!-- Show how many results found -->
     <p>Found {{ vehicles|length }} result(s)</p>
     <div class="search-results">
         {% for vehicle in vehicles %}
             <div class="weapon-item">
-                <!-- Vehicle name -->
                 <h3>{{ vehicle.name }} ({{ vehicle.type }})</h3>
-                <!-- Display vehicle type, role, and description -->
                 {% if vehicle.role %}
                 <p><strong>Role:</strong> {{ vehicle.role }}</p>
                 {% endif %}
                 <p><strong>Description:</strong> {{ vehicle.description }}</p>
-                <!-- Display countries that operate this vehicle -->
+                {% if vehicle.external_link %} {# New: Display external link #}
+                <p><strong>Extra Info:</strong> <a href="{{ vehicle.external_link }}" target="_blank" rel="noopener noreferrer">Learn More on Wikipedia</a></p>
+                {% endif %}
                 <p><strong>Operated by:</strong> 
                     {% for country in vehicle.countries %}
                         {{ country.name }}{% if not loop.last %}, {% endif %}
@@ -33,14 +32,11 @@
     </div>
 {% else %}
     {% if query %}
-    <!-- Message if no matches found -->
         <p>No vehicles found matching "{{ query }}"</p>
     {% else %}
-    <!-- Message if no search term entered -->
         <p>Please enter a search term</p>
     {% endif %}
 {% endif %}
-<!-- Link back to homepage -->
 <a href="{{ url_for('homepage') }}" class="menu-button">Back to Home</a>
 {% endblock %}
 </html>

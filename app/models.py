@@ -52,13 +52,10 @@ class Tank(db.Model):
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.Text)
     year_introduced = db.Column(db.Integer)
-    # Add a 'type' field for consistent display in templates
     type = db.Column(db.String(50), default='Tank')
+    # New field for external link
+    external_link = db.Column(db.String(500), nullable=True) # Max length 500, can be empty
 
-    # Many-to-many relationship with Country
-    # 'secondary' specifies the association table
-    # 'backref' allows access to tanks from a country object
-    # 'lazy=True' means the related objects are loaded when accessed
     countries = db.relationship('Country', secondary=tank_countries, lazy=True,
                                 backref=db.backref('tanks', lazy=True))
 
@@ -73,13 +70,10 @@ class Plane(db.Model):
     name = db.Column(db.String(100), nullable=False, unique=True)
     role = db.Column(db.String(50))
     description = db.Column(db.Text)
-    # Add a 'type' field for consistent display in templates
     type = db.Column(db.String(50), default='Aircraft')
+    # New field for external link
+    external_link = db.Column(db.String(500), nullable=True) # Max length 500, can be empty
 
-    # Many-to-many relationship with Country
-    # 'secondary' specifies the association table
-    # 'backref' allows access to planes from a country object
-    # 'lazy=True' means the related objects are loaded when accessed
     countries = db.relationship('Country', secondary=plane_countries, lazy=True,
                                 backref=db.backref('planes', lazy=True))
 

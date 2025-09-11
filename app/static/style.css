@@ -694,3 +694,15 @@ nav li a {
     text-align: center;
     padding: 15px 22px; /* Slightly more padding */
 }
+/* Style for the "Learn More" link */
+.weapon-item p a[target="_blank"] {
+    color: #C1D29E; /* Light Camo Green Accent */
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.weapon-item p a[target="_blank"]:hover {
+    color: #E0E0E0; /* Lighter on hover */
+    text-decoration: none;
+}

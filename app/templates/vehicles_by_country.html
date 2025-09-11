@@ -15,6 +15,9 @@
                 {% if vehicle.role %}<p><strong>Role:</strong> {{ vehicle.role }}</p>{% endif %}
                 {% if vehicle.year_introduced %}<p><strong>Year Introduced:</strong> {{ vehicle.year_introduced }}</p>{% endif %}
                 <p><strong>Description:</strong> {{ vehicle.description }}</p>
+                {% if vehicle.external_link %} {# New: Display external link #}
+                <p><strong>Extra Info:</strong> <a href="{{ vehicle.external_link }}" target="_blank" rel="noopener noreferrer">Learn More on Wikipedia</a></p>
+                {% endif %}
                 <p><strong>Operated by:</strong> 
                     {% for c in vehicle.countries %}
                         {{ c.name }}{% if not loop.last %}, {% endif %}

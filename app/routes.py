@@ -168,29 +168,28 @@ def vehicles_by_country(country_id):
 
 
 @app.route('/add_tank', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+@admin_required
 def add_tank():
     """Handles adding a new tank to the database."""
     all_countries = Country.query.order_by(Country.name).all()
-# Get all countries for the form
 
     if request.method == 'POST':
         name = request.form.get('name')
         description = request.form.get('description')
         year_introduced = request.form.get('year_introduced')
+        external_link = request.form.get('external_link') # Get the new field
         selected_country_ids = request.form.getlist('countries')
-# Get list of selected country IDs
 
         if not name or not description or not year_introduced or not selected_country_ids:
-            flash('All fields are required!', 'error')
+            flash('All required fields are missing!', 'error')
             return redirect(url_for('add_tank'))
 
         new_tank = Tank(
             name=name,
             description=description,
-            year_introduced=int(year_introduced)
+            year_introduced=int(year_introduced),
+            external_link=external_link if external_link else None # Store the link, or None if empty
         )
-        # Add selected countries to the tank
         for country_id in selected_country_ids:
             country = Country.query.get(country_id)
             if country:
@@ -203,35 +202,30 @@ def add_tank():
 
     return render_template('add_tank.html', title="Add New Tank", all_countries=all_countries)
 
-# --- Route for adding plane ---
-# Also had ai make this route and the page.
-
 
 @app.route('/add_plane', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+@admin_required
 def add_plane():
     """Handles adding a new plane to the database."""
     all_countries = Country.query.order_by(Country.name).all()
-# Get all countries for the form
 
     if request.method == 'POST':
         name = request.form.get('name')
         role = request.form.get('role')
         description = request.form.get('description')
+        external_link = request.form.get('external_link') # Get the new field
         selected_country_ids = request.form.getlist('countries')
-# Get list of selected country IDs
 
         if not name or not role or not description or not selected_country_ids:
-            flash('All fields are required!', 'error')
+            flash('All required fields are missing!', 'error')
             return redirect(url_for('add_plane'))
 
         new_plane = Plane(
             name=name,
             role=role,
-            description=description
+            description=description,
+            external_link=external_link if external_link else None # Store the link, or None if empty
         )
-
-        # Add selected countries to the plane
         for country_id in selected_country_ids:
             country = Country.query.get(country_id)
             if country:
@@ -244,25 +238,22 @@ def add_plane():
 
     return render_template('add_plane.html', title="Add New Aircraft", all_countries=all_countries)
 
-
 # --- Route for editing an existing tank ---
 @app.route('/edit_tank/<int:id>', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+@admin_required
 def edit_tank(id):
     """Handles editing a tank's details."""
     tank = Tank.query.options(db.joinedload(Tank.countries)).get_or_404(id)
     all_countries = Country.query.order_by(Country.name).all()
-# Get all countries for the form
 
     if request.method == 'POST':
         tank.name = request.form['name']
         tank.description = request.form['description']
         tank.year_introduced = int(request.form['year_introduced'])
+        tank.external_link = request.form.get('external_link') # Update the new field
         selected_country_ids = request.form.getlist('countries')
 
-        # Clear existing country associations
         tank.countries.clear()
-        # Add new selected country associations
         for country_id in selected_country_ids:
             country = Country.query.get(country_id)
             if country:
@@ -272,7 +263,6 @@ def edit_tank(id):
         flash(f'Tank "{tank.name}" updated successfully!', 'success')
         return redirect(url_for('tanks_list'))
     return render_template('edit_tank.html', title="Edit Tank", vehicle=tank, all_countries=all_countries)
-
 
 # --- Route for deleting a tank ---
 # Also had ai make this route and the page.
@@ -290,22 +280,20 @@ def delete_tank(id):
 
 # --- Route for editing an existing plane ---
 @app.route('/edit_plane/<int:id>', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+@admin_required
 def edit_plane(id):
     """Handles editing a plane's details."""
     plane = Plane.query.options(db.joinedload(Plane.countries)).get_or_404(id)
     all_countries = Country.query.order_by(Country.name).all()
-# Get all countries for the form
 
     if request.method == 'POST':
         plane.name = request.form['name']
         plane.role = request.form['role']
         plane.description = request.form['description']
+        plane.external_link = request.form.get('external_link') # Update the new field
         selected_country_ids = request.form.getlist('countries')
 
-        # Clear existing country associations
         plane.countries.clear()
-        # Add new selected country associations
         for country_id in selected_country_ids:
             country = Country.query.get(country_id)
             if country:
