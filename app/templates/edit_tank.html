@@ -7,31 +7,30 @@
 {% block content %}
 <h2>{{ title }}</h2>
 <div class="form-container">
+    <!-- Form starts here, method is POST -->
     <form action="{{ url_for('edit_tank', id=vehicle.id) }}" method="post">
         <!-- Tank Name input -->
         <div class="form-group">
             <label for="name">Tank Name</label>
+            <!-- Text field pre-filled with tank name -->
             <input type="text" id="name" name="name" value="{{ vehicle.name }}" required>
         </div>
         <div class="form-group">
             <!-- Year Introduced input -->
             <label for="year_introduced">Year Introduced</label>
+            <!-- Number field pre-filled with the year the tank was introduced -->
             <input type="number" id="year_introduced" name="year_introduced" value="{{ vehicle.year_introduced }}" required>
         </div>
         <!-- Description input -->
         <div class="form-group">
             <label for="description">Description</label>
+            <!-- Textarea pre-filled with the tank description -->
             <textarea id="description" name="description" rows="4" required>{{ vehicle.description }}</textarea>
-        </div>
-        <!-- New: External Link input -->
-        <div class="form-group">
-            <label for="external_link">Extra Info Link (e.g., Wikipedia)</label>
-            <input type="url" id="external_link" name="external_link" value="{{ vehicle.external_link if vehicle.external_link else '' }}" placeholder="https://en.wikipedia.org/wiki/M1_Abrams">
-            <p class="help-text">Optional: Provide a link for more information.</p>
         </div>
         <!-- Country selection for the tank -->
         <div class="form-group">
             <label for="countries">Operated by Countries</label>
+            <!-- Multiple select dropdown for countries, pre-selecting current countries -->
             <select id="countries" name="countries" multiple required>
                 {% for country in all_countries %}
                     <option value="{{ country.id }}" 
@@ -44,11 +43,12 @@
         </div>
         <!-- Buttons for submitting or canceling -->
         <div class="form-actions">
+            <!-- Submit button to update tank -->
             <button type="submit" class="menu-button">Update Tank</button>
+            <!-- Cancel link to go back to the tank list -->
             <a href="{{ url_for('tanks_list') }}" class="menu-button-secondary">Cancel</a>
         </div>
     </form>
 </div>
-
 {% endblock %}
 </html>

@@ -7,31 +7,30 @@
 {% block content %}
 <h2>{{ title }}</h2>
 <div class="form-container">
+    <!-- Form starts here, method POST -->
     <form action="{{ url_for('edit_plane', id=vehicle.id) }}" method="post">
         <!-- Aircraft Name input -->
         <div class="form-group">
             <label for="name">Aircraft Name</label>
+            <!-- Text input pre-filled with plane name -->
             <input type="text" id="name" name="name" value="{{ vehicle.name }}" required>
         </div>
         <!-- Role input -->
         <div class="form-group">
             <label for="role">Role</label>
+            <!-- Text input pre-filled with plane role -->
             <input type="text" id="role" name="role" value="{{ vehicle.role }}" required>
         </div>
         <!-- Description input -->
         <div class="form-group">
             <label for="description">Description</label>
+            <!-- Textarea pre-filled with plane description -->
             <textarea id="description" name="description" rows="4" required>{{ vehicle.description }}</textarea>
-        </div>
-        <!-- New: External Link input -->
-        <div class="form-group">
-            <label for="external_link">Extra Info Link (e.g., Wikipedia)</label>
-            <input type="url" id="external_link" name="external_link" value="{{ vehicle.external_link if vehicle.external_link else '' }}" placeholder="https://en.wikipedia.org/wiki/F-22_Raptor">
-            <p class="help-text">Optional: Provide a link for more information.</p>
         </div>
         <!-- Country selection for the plane -->
         <div class="form-group">
             <label for="countries">Operated by Countries</label>
+            <!-- Multiple select dropdown for countries, pre-selecting current countries -->
             <select id="countries" name="countries" multiple required>
                 {% for country in all_countries %}
                     <option value="{{ country.id }}" 
@@ -42,9 +41,11 @@
             </select>
             <p class="help-text">Hold Ctrl/Cmd to select multiple countries.</p>
         </div>
-        <!-- Submit and cancel buttons -->
+         <!-- Submit and cancel buttons -->
         <div class="form-actions">
+            <!-- Submit button to update plane -->
             <button type="submit" class="menu-button">Update Aircraft</button>
+            <!-- Cancel link to go back to the plane list -->
             <a href="{{ url_for('planes_list') }}" class="menu-button-secondary">Cancel</a>
         </div>
     </form>
