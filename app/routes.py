@@ -7,7 +7,7 @@ from app.models import Tank, Plane, Country, User # Import User
 from flask_login import login_user, logout_user, login_required, current_user # Import Flask-Login functions
 from functools import wraps # Import wraps for custom decorators
 
-# --- Custom Decorator for Admin Only Access ---
+# Custom Decorator for Admin Only Access
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -17,12 +17,14 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# --- User Loader for Flask-Login ---
+# User Loader for Flask-Login
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# --- Authentication Routes ---
+# Authentication Routes
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -92,9 +94,9 @@ def logout():
     return redirect(url_for('homepage'))
 
 
-# --- Application Routes ---
+# Application Routes
 
-# --- Route for the index/home page ---
+# Route for the index/home page
 # This was taken from last years project. Same with the about page.
 
 
@@ -111,7 +113,7 @@ def about():
     """Renders the about page."""
     return render_template('about.html')
 
-# --- Route for the tank page ---
+# Route for the tank page
 # This made from ai help and the page.
 
 
@@ -122,7 +124,7 @@ def tanks_list():
     tanks = Tank.query.options(db.joinedload(Tank.countries)).all()
     return render_template('vehicles.html', vehicles=tanks, title="Tanks")
 
-# --- Route for the plane page ---
+# Route for the plane page
 # This made from ai help and the page.
 
 
@@ -133,7 +135,7 @@ def planes_list():
     planes = Plane.query.options(db.joinedload(Plane.countries)).all()
     return render_template('vehicles.html', vehicles=planes, title="Aircraft")
 
-# --- Route for listing all countries ---
+# Route for listing all countries
 
 # Also had ai make this route and the page.
 
@@ -144,7 +146,7 @@ def countries_list():
     countries = Country.query.all()
     return render_template('countries.html', countries=countries)
 
-# --- Route for listing vehicles by a specific country ---
+# Route for listing vehicles by a specific country
 
 # Had ai fix this route to properly get tanks and planes for a country and help me creat the template and the link on the countries page. Also had ai make this route and the page.
 
@@ -163,7 +165,7 @@ def vehicles_by_country(country_id):
 
     return render_template('vehicles_by_country.html', country=country, vehicles=all_vehicles)
 
-# --- Route for adding tank ---
+# Route for adding tank
 # Also had ai make this route and the page.
 
 
@@ -203,7 +205,7 @@ def add_tank():
 
     return render_template('add_tank.html', title="Add New Tank", all_countries=all_countries)
 
-# --- Route for adding plane ---
+# Route for adding plane
 # Also had ai make this route and the page.
 
 
@@ -245,7 +247,7 @@ def add_plane():
     return render_template('add_plane.html', title="Add New Aircraft", all_countries=all_countries)
 
 
-# --- Route for editing an existing tank ---
+# Route for editing an existing tank
 @app.route('/edit_tank/<int:id>', methods=['GET', 'POST'])
 @admin_required # Protect this route with admin decorator
 def edit_tank(id):
@@ -274,7 +276,7 @@ def edit_tank(id):
     return render_template('edit_tank.html', title="Edit Tank", vehicle=tank, all_countries=all_countries)
 
 
-# --- Route for deleting a tank ---
+# Route for deleting a tank
 # Also had ai make this route and the page.
 
 @app.route('/delete_tank/<int:id>', methods=['POST'])
@@ -288,7 +290,7 @@ def delete_tank(id):
     return redirect(url_for('tanks_list'))
 
 
-# --- Route for editing an existing plane ---
+# Route for editing an existing plane
 @app.route('/edit_plane/<int:id>', methods=['GET', 'POST'])
 @admin_required # Protect this route with admin decorator
 def edit_plane(id):
@@ -316,7 +318,7 @@ def edit_plane(id):
         return redirect(url_for('planes_list'))
     return render_template('edit_plane.html', title="Edit Aircraft", vehicle=plane, all_countries=all_countries)
 
-# --- Route for deleting a plane ---
+# Route for deleting a plane
 # Also had ai make this route and the page.
 
 
@@ -330,7 +332,7 @@ def delete_plane(id):
     flash(f'Aircraft "{plane.name}" has been deleted.', 'success')
     return redirect(url_for('planes_list'))
 
-# --- Route for searching vehicles ---
+# Route for searching vehicles
 # This tooke time for me to figure out. Had ai help me with this route and the page.
 
 
@@ -369,7 +371,7 @@ def search():
     return render_template('search_results.html', vehicles=results, query=query)
 
 
-# --- New Routes for Favoriting Vehicles ---
+# New Routes for Favoriting Vehicles
 @app.route('/favorite_tank/<int:tank_id>', methods=['POST'])
 @login_required
 def favorite_tank(tank_id):
@@ -437,7 +439,7 @@ def favorites():
     )
     return render_template('favorites.html', vehicles=all_favorited_vehicles, title="My Favorites")
 
-# --- New Route for adding countries ---
+# New Route for adding countries
 @app.route('/add_country', methods=['GET', 'POST'])
 @admin_required # Protect this route with admin decorator
 def add_country():
@@ -457,7 +459,7 @@ def add_country():
     return render_template('add_country.html', title="Add New Country")
 
 
-# --- Error Handlers ---
+# Error Handlers
 # These two error handlers were added by me from last years project adn will trigger when a 404 or 500 error occurs.
 
 
