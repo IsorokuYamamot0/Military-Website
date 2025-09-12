@@ -2,8 +2,10 @@
 # This website is made by Nishil Singh June 1 2025
 
 from app import db
-from flask_login import UserMixin # Import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash # For password hashing
+# Import UserMixin
+from flask_login import UserMixin
+# For password hashing
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Association table for the many-to-many relationship between Tank and Country
 # It links tanks to the countries that operate them.
@@ -94,7 +96,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    is_admin = db.Column(db.Boolean, default=False) # New field for admin status
+    # New field for admin status
+    is_admin = db.Column(db.Boolean, default=False)
 
     # Many-to-many relationship for favorited tanks
     favorite_tanks = db.relationship('Tank', secondary=user_favorite_tanks, lazy=True,

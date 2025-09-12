@@ -2,18 +2,25 @@
 
 from flask import render_template, request, redirect, url_for, flash
 from sqlalchemy import or_
-from app import app, db, login_manager # Import login_manager
-from app.models import Tank, Plane, Country, User # Import User
-from flask_login import login_user, logout_user, login_required, current_user # Import Flask-Login functions
-from functools import wraps # Import wraps for custom decorators
+# Import login_manager
+from app import app, db, login_manager
+# Import User
+from app.models import Tank, Plane, Country, User
+# Import Flask-Login functions
+from flask_login import login_user, logout_user, login_required, current_user
+# Import wraps for custom decorators
+from functools import wraps
 
 # Custom Decorator for Admin Only Access
+
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated or not current_user.is_admin:
             flash('You do not have permission to access this page.', 'error')
-            return redirect(url_for('homepage')) # Or redirect to login, or 403 page
+            # Or redirect to login, or 404 page
+            return redirect(url_for('homepage'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -26,22 +33,30 @@ def load_user(user_id):
 
 # Authentication Routes
 
+
 @app.route('/register', methods=['GET', 'POST'])
+# Registration route
 def register():
     if current_user.is_authenticated:
+        # If user is already logged in, redirect to homepage
         return redirect(url_for('homepage'))
+    # Dictionary to hold form data in case of errors
     form_data = {}
     if request.method == 'POST':
+        # Get form data
         username = request.form.get('username')
         password = request.form.get('password')
         password_confirm = request.form.get('password_confirm')
+        # Basic validation
 
         if not username or not password or not password_confirm:
             flash('All fields are required!', 'error')
             form_data = request.form
+            # Check if passwords match
         elif password != password_confirm:
             flash('Passwords do not match!', 'error')
             form_data = request.form
+            # Check if username already exists
         elif User.query.filter_by(username=username).first():
             flash('Username already exists!', 'error')
             form_data = request.form
@@ -62,17 +77,21 @@ def register():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+# Login route
 def login():
     if current_user.is_authenticated:
+        # If user is already logged in, redirect to homepage
         return redirect(url_for('homepage'))
     form_data = {}
     if request.method == 'POST':
+        # Get form data
         username = request.form.get('username')
         password = request.form.get('password')
-
+        # Basic validation
         if not username or not password:
             flash('Username and password are required!', 'error')
             form_data = request.form
+            # Check credentials
         else:
             user = User.query.filter_by(username=username).first()
             if user and user.check_password(password):
@@ -87,7 +106,8 @@ def login():
 
 
 @app.route('/logout')
-@login_required # Only logged-in users can log out
+# Only logged-in users can log out
+@login_required
 def logout():
     logout_user()
     flash('You have been logged out.', 'info')
@@ -105,7 +125,7 @@ def homepage():
     """Renders the main home page."""
     return render_template('index.html')
 
-# --- Route for the about page ---
+# Route for the about page
 
 
 @app.route('/about')
@@ -170,7 +190,8 @@ def vehicles_by_country(country_id):
 
 
 @app.route('/add_tank', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def add_tank():
     """Handles adding a new tank to the database."""
     all_countries = Country.query.order_by(Country.name).all()
@@ -210,7 +231,8 @@ def add_tank():
 
 
 @app.route('/add_plane', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def add_plane():
     """Handles adding a new plane to the database."""
     all_countries = Country.query.order_by(Country.name).all()
@@ -249,7 +271,8 @@ def add_plane():
 
 # Route for editing an existing tank
 @app.route('/edit_tank/<int:id>', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def edit_tank(id):
     """Handles editing a tank's details."""
     tank = Tank.query.options(db.joinedload(Tank.countries)).get_or_404(id)
@@ -280,7 +303,8 @@ def edit_tank(id):
 # Also had ai make this route and the page.
 
 @app.route('/delete_tank/<int:id>', methods=['POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def delete_tank(id):
     """Handles deleting a tank from the database."""
     tank = Tank.query.get_or_404(id)
@@ -292,7 +316,8 @@ def delete_tank(id):
 
 # Route for editing an existing plane
 @app.route('/edit_plane/<int:id>', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def edit_plane(id):
     """Handles editing a plane's details."""
     plane = Plane.query.options(db.joinedload(Plane.countries)).get_or_404(id)
@@ -323,7 +348,8 @@ def edit_plane(id):
 
 
 @app.route('/delete_plane/<int:id>', methods=['POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def delete_plane(id):
     """Handles deleting a plane from the database."""
     plane = Plane.query.get_or_404(id)
@@ -382,7 +408,9 @@ def favorite_tank(tank_id):
         flash(f'"{tank.name}" added to your favorites!', 'success')
     else:
         flash(f'"{tank.name}" is already in your favorites.', 'info')
-    return redirect(request.referrer or url_for('tanks_list')) # Redirect back to the previous page
+        # Redirect back to the previous page
+    return redirect(request.referrer or url_for('tanks_list'))
+
 
 @app.route('/unfavorite_tank/<int:tank_id>', methods=['POST'])
 @login_required
@@ -394,7 +422,9 @@ def unfavorite_tank(tank_id):
         flash(f'"{tank.name}" removed from your favorites.', 'info')
     else:
         flash(f'"{tank.name}" was not in your favorites.', 'error')
-    return redirect(request.referrer or url_for('tanks_list')) # Redirect back to the previous page
+        # Redirect back to the previous page
+    return redirect(request.referrer or url_for('tanks_list'))
+
 
 @app.route('/favorite_plane/<int:plane_id>', methods=['POST'])
 @login_required
@@ -406,7 +436,9 @@ def favorite_plane(plane_id):
         flash(f'"{plane.name}" added to your favorites!', 'success')
     else:
         flash(f'"{plane.name}" is already in your favorites.', 'info')
-    return redirect(request.referrer or url_for('planes_list')) # Redirect back to the previous page
+        # Redirect back to the previous page
+    return redirect(request.referrer or url_for('planes_list'))
+
 
 @app.route('/unfavorite_plane/<int:plane_id>', methods=['POST'])
 @login_required
@@ -418,7 +450,9 @@ def unfavorite_plane(plane_id):
         flash(f'"{plane.name}" removed from your favorites.', 'info')
     else:
         flash(f'"{plane.name}" was not in your favorites.', 'error')
-    return redirect(request.referrer or url_for('planes_list')) # Redirect back to the previous page
+        # Redirect back to the previous page
+    return redirect(request.referrer or url_for('planes_list'))
+
 
 @app.route('/favorites')
 @login_required
@@ -440,8 +474,11 @@ def favorites():
     return render_template('favorites.html', vehicles=all_favorited_vehicles, title="My Favorites")
 
 # New Route for adding countries
+
+
 @app.route('/add_country', methods=['GET', 'POST'])
-@admin_required # Protect this route with admin decorator
+# Protect this route with admin decorator
+@admin_required
 def add_country():
     """Handles adding a new country to the database."""
     if request.method == 'POST':

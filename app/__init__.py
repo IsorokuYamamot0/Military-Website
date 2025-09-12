@@ -3,7 +3,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-from flask_login import LoginManager # Import LoginManager
+# Import LoginManager
+from flask_login import LoginManager
 
 # Create the Flask application instance
 app = Flask(__name__)
@@ -22,8 +23,10 @@ db = SQLAlchemy(app)
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login' # Specify the login view
+# Specify the login view for @login_required decorator
+login_manager.login_view = 'login'
 
 # Import routes and models to link them to the app
 # This import is at the end to avoid circular dependencies
+
 from app import routes, models
